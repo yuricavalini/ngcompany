@@ -2,7 +2,7 @@
   "name": "ngshop",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "ngcompany",
+  "prefix": "ngshop",
   "sourceRoot": "apps/ngshop/src",
   "tags": [],
   "targets": {
