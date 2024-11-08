@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { ProductListComponent } from './pages/product-list/product-list.component';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
 import { HomeComponent } from './pages/home/home.component';
 
 export const appRoutes: Route[] = [
@@ -9,6 +9,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'products',
-    component: ProductListComponent,
+    component: ProductsListComponent,
   }
 ];
