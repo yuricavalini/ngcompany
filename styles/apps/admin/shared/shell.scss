@@ -5,6 +5,12 @@
     margin: 0;
   }
 
+  &-content {
+    margin-left: 175px;
+    height: 100vh;
+    padding: 20px;
+  }
+
   &-main {
     width: calc(100% - 175px);
     margin-left: 175px;
