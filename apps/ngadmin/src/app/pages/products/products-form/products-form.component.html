@@ -137,11 +137,19 @@
             </div>
 
             <div class="field col-12">
-              <label for="richDescription"></label>
+              <label for="richDescription">Product Details</label>
               <p-editor
                 formControlName="richDescription"
                 [style]="{ height: '320px', maxHeight: '320px' }"
               ></p-editor>
+            </div>
+
+            <div class="field col-12">
+              <label for="image">Image</label>
+              <input class="p-inputtext" type="file" name="image" accept="image/*" (change)="onImageUpload($event)" />
+              <div class="col-2 mt-2 pl-0" *ngIf="imageDisplay">
+                <img style="width: 100%" [src]="imageDisplay" alt="">
+              </div>
             </div>
           </div>
         </form>

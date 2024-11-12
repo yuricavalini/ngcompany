@@ -23,6 +23,7 @@ export class ProductsFormComponent implements OnInit {
   editMode = false;
   currentProductId: string | null = null;
   categories: Category[] = [];
+  imageDisplay: string | ArrayBuffer | null = null;
 
   constructor(
     private productsService: ProductsService,
@@ -104,6 +105,21 @@ export class ProductsFormComponent implements OnInit {
       })
     });
   }
+
+  onImageUpload(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+    const file: File | null = fileList ? fileList[0] : null;
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        this.imageDisplay = fileReader.result;
+      };
+      fileReader.readAsDataURL(file);
+    }
+  }
+
+  onCancel() {}
 
   onSubmit() {
     this.isSubmitted = true;
