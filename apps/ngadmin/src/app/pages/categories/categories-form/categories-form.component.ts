@@ -1,0 +1,138 @@
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CategoriesService, Category } from '@ngcompany/products';
+import { MessageService } from 'primeng/api';
+import { take, timer } from 'rxjs';
+
+@Component({
+  selector: 'ngadmin-categories-form',
+  templateUrl: './categories-form.component.html'
+})
+export class CategoriesFormComponent implements OnInit {
+  form!: FormGroup<{
+    name: FormControl<string>;
+    icon: FormControl<string>;
+    color: FormControl<string>;
+  }>;
+  isSubmitted = false;
+  editMode = false;
+  currentCategoryId: string | null = null;
+
+  constructor(
+    private categoriesService: CategoriesService,
+    private messageService: MessageService,
+    private location: Location,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.createForm();
+    this.checkEditMode();
+  }
+
+  private createForm() {
+    this.form = new FormGroup({
+      name: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      icon: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      color: new FormControl('#fff', {
+        nonNullable: true
+      })
+    });
+  }
+
+  onSubmit() {
+    this.isSubmitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+
+    const category = new Category({
+      id: this.currentCategoryId || '',
+      name: this.form.controls['name'].value,
+      icon: this.form.controls['icon'].value,
+      color: this.form.controls['color'].value
+    });
+
+    if (this.editMode) {
+      this.updateCategory(category);
+    } else {
+      this.createCategory(category);
+    }
+  }
+
+  createCategory(category: Category) {
+    this.categoriesService.createCategory(category);
+    this.form.reset();
+    this.isSubmitted = false;
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: `Category ${category.name} is created!`
+    });
+    // this.messageService.add({
+    //   severity: 'error',
+    //   summary: 'Error',
+    //   detail: 'Category not created!'
+    // });
+
+    timer(2000)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.location.back();
+      });
+  }
+
+  updateCategory(category: Category) {
+    this.categoriesService.updateCategory(category);
+    this.form.reset();
+    this.isSubmitted = false;
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Category updated!'
+    });
+    // this.messageService.add({
+    //   severity: 'error',
+    //   summary: 'Error',
+    //   detail: 'Category not created!'
+    // });
+
+    timer(2000)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.location.back();
+      });
+  }
+
+  private checkEditMode() {
+    this.route.params.subscribe((params) => {
+      this.currentCategoryId = params['id'] as string;
+      if (this.currentCategoryId) {
+        this.editMode = true;
+        this.categoriesService
+          .getCategory(this.currentCategoryId)
+          .subscribe((category) => {
+            this.form.patchValue({
+              name: category?.name,
+              icon: category?.icon,
+              color: category?.color
+            });
+          });
+      }
+    });
+  }
+
+  get categoryForm() {
+    return this.form.controls;
+  }
+}
