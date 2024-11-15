@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { CategoriesService, ProductsService } from '@ngcompany/products';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -22,6 +23,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { InMemoryDataService } from '../../../../data/in-memory-data.service';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
@@ -68,9 +70,17 @@ const UX_MODULES = [
     ReactiveFormsModule,
     NgOptimizedImage,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
-    ...UX_MODULES
+    ...UX_MODULES,
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
+      dataEncapsulation: false
+    })
   ],
-  providers: [CategoriesService, ProductsService, MessageService, ConfirmationService],
+  providers: [
+    CategoriesService,
+    ProductsService,
+    MessageService,
+    ConfirmationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
