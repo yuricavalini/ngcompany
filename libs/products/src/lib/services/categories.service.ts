@@ -25,9 +25,9 @@ export class CategoriesService {
     return this.http.post<Category>(this.apiURLCategories, category);
   }
 
-  updateCategory(category: Category) {
+  updateCategory(category: Category, categoryId: string) {
     return this.http.put<Category>(
-      `${this.apiURLCategories}/${category.id}`,
+      `${this.apiURLCategories}/${categoryId}`,
       category
     );
   }

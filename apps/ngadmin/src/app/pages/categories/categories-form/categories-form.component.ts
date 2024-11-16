@@ -103,7 +103,7 @@ export class CategoriesFormComponent implements OnInit {
 
   private updateCategory(category: Category) {
     this.categoriesService
-      .updateCategory(category)
+      .updateCategory(category, this.currentCategoryId as string)
       .pipe(takeUntil(this.unsubs$))
       .subscribe({
         next: () => {
