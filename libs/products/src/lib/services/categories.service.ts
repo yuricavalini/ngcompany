@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+
 import { Category } from '../models/category';
 
 @Injectable({
@@ -7,55 +9,30 @@ import { Category } from '../models/category';
 })
 export class CategoriesService {
   // apiURLCategories = environment.apiUrl + 'categories';
+  apiURLCategories = 'api/categories';
 
-  private categories = new BehaviorSubject<Category[]>([
-    {
-      id: '1',
-      name: 'category-1',
-      icon: 'compass',
-      color: '#398888'
-    },
-    {
-      id: '2',
-      name: 'category-2',
-      icon: 'th-large',
-      color: '#000000'
-    },
-    {
-      id: '3',
-      name: 'category-3',
-      icon: 'heart',
-      color: '#f40000'
-    }
-  ]);
-
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getCategories(): Observable<Category[]> {
-    return this.categories.asObservable();
+    return this.http.get<Category[]>(this.apiURLCategories);
   }
 
   getCategory(categoryId: string) {
-    const categories = this.categories.getValue();
-    return of(categories.find((category) => category.id === categoryId));
+    return this.http.get<Category>(`${this.apiURLCategories}/${categoryId}`);
   }
 
   createCategory(category: Category) {
-    const categories = this.categories.getValue();
-    category.id = (categories.length + 1).toString();
-    this.categories.next([...this.categories.getValue(), category]);
+    return this.http.post<Category>(this.apiURLCategories, category);
   }
+
   updateCategory(category: Category) {
-    const categories = this.categories.getValue();
-    category.id = (categories.length + 1).toString();
-    this.categories.next([...this.categories.getValue(), category]);
+    return this.http.put<Category>(
+      `${this.apiURLCategories}/${category.id}`,
+      category
+    );
   }
 
   deleteCategory(categoryId: string) {
-    const categories = this.categories.getValue();
-    const newCategories = categories.filter(
-      (category) => category.id !== categoryId
-    );
-    this.categories.next(newCategories);
+    return this.http.delete<Category>(`${this.apiURLCategories}/${categoryId}`);
   }
 }

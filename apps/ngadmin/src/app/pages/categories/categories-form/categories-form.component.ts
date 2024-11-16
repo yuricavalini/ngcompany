@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService, Category } from '@ngcompany/products';
 import { MessageService } from 'primeng/api';
-import { take, timer } from 'rxjs';
+import { Subject, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-categories-form',
@@ -19,6 +19,8 @@ export class CategoriesFormComponent implements OnInit {
   isSubmitted = false;
   editMode = false;
   currentCategoryId: string | null = null;
+
+  private unsubs$ = new Subject<void>();
 
   constructor(
     private categoriesService: CategoriesService,
@@ -68,49 +70,64 @@ export class CategoriesFormComponent implements OnInit {
     }
   }
 
-  createCategory(category: Category) {
-    this.categoriesService.createCategory(category);
-    this.form.reset();
-    this.isSubmitted = false;
+  private createCategory(category: Category) {
+    this.categoriesService
+      .createCategory(category)
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.isSubmitted = false;
 
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: `Category ${category.name} is created!`
-    });
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: 'Error',
-    //   detail: 'Category not created!'
-    // });
-
-    timer(2000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.location.back();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Category ${category.name} is created!`
+          });
+          timer(2000)
+            .pipe(takeUntil(this.unsubs$))
+            .subscribe(() => {
+              this.location.back();
+            });
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Category not created!'
+          });
+        }
       });
   }
 
-  updateCategory(category: Category) {
-    this.categoriesService.updateCategory(category);
-    this.form.reset();
-    this.isSubmitted = false;
-
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Category updated!'
-    });
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: 'Error',
-    //   detail: 'Category not created!'
-    // });
-
-    timer(2000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.location.back();
+  private updateCategory(category: Category) {
+    this.categoriesService
+      .updateCategory(category)
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.isSubmitted = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Category updated!'
+          });
+          timer(2000)
+            .pipe(takeUntil(this.unsubs$))
+            .subscribe(() => {
+              this.location.back();
+            });
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Category not updated!'
+          });
+        }
       });
   }
 
@@ -123,9 +140,9 @@ export class CategoriesFormComponent implements OnInit {
           .getCategory(this.currentCategoryId)
           .subscribe((category) => {
             this.form.patchValue({
-              name: category?.name,
-              icon: category?.icon,
-              color: category?.color
+              name: category.name,
+              icon: category.icon,
+              color: category.color
             });
           });
       }
