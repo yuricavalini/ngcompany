@@ -136,9 +136,7 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isSubmitted = true;
-    if (this.form.invalid) {
-      return;
-    }
+    if (this.form.invalid) return;
 
     const productFormData = new FormData();
     Object.keys(this.productForm).forEach((key) => {
@@ -187,7 +185,7 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
 
   private updateProduct(productData: FormData) {
     this.productsService
-      .updateProduct(productData)
+      .updateProduct(productData, this.currentProductId as string)
       .pipe(takeUntil(this.unsubs$))
       .subscribe({
         next: () => {
@@ -240,6 +238,8 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
               isFeatured: product.isFeatured,
               dateCreated: product.dateCreated
             });
+            this.imageDisplay = product.image;
+            this.form.controls['image'].setValidators([]);
             this.form.updateValueAndValidity();
           });
       }

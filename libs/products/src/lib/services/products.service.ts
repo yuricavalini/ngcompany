@@ -25,9 +25,9 @@ export class ProductsService {
     return this.http.post<Product>(this.apiURLProducts, productData);
   }
 
-  updateProduct(productData: FormData) {
+  updateProduct(productData: FormData, productId: string) {
     return this.http.put<Product>(
-      `${this.apiURLProducts}/${productData.get('id')}`,
+      `${this.apiURLProducts}/${productId}`,
       productData
     );
   }
