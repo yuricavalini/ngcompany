@@ -1,15 +1,14 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   CategoriesService,
   Category,
-  Product,
   ProductsService
 } from '@ngcompany/products';
 import { MessageService } from 'primeng/api';
-import { take, timer } from 'rxjs';
+import { Subject, take, takeUntil, timer } from 'rxjs';
 
 import { ProductForm } from './product-form';
 
@@ -17,13 +16,15 @@ import { ProductForm } from './product-form';
   selector: 'ngadmin-products-form',
   templateUrl: './products-form.component.html'
 })
-export class ProductsFormComponent implements OnInit {
+export class ProductsFormComponent implements OnInit, OnDestroy {
   form!: FormGroup<ProductForm>;
   isSubmitted = false;
   editMode = false;
   currentProductId: string | null = null;
   categories: Category[] = [];
   imageDisplay: string | ArrayBuffer | null = null;
+
+  private unsubs$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
@@ -39,6 +40,11 @@ export class ProductsFormComponent implements OnInit {
     this.checkEditMode();
   }
 
+  ngOnDestroy(): void {
+    this.unsubs$.next();
+    this.unsubs$.complete();
+  }
+
   private getCategories() {
     this.categoriesService
       .getCategories()
@@ -51,8 +57,7 @@ export class ProductsFormComponent implements OnInit {
   private createForm() {
     this.form = new FormGroup({
       id: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required]
+        nonNullable: true
       }),
       name: new FormControl('', {
         nonNullable: true,
@@ -111,11 +116,19 @@ export class ProductsFormComponent implements OnInit {
     const fileList: FileList | null = element.files;
     const file: File | null = fileList ? fileList[0] : null;
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        this.imageDisplay = fileReader.result;
-      };
-      fileReader.readAsDataURL(file);
+      this.productsService
+        .fileToBase64(file)
+        .pipe(take(1))
+        .subscribe({
+          next: (base64) => {
+            this.imageDisplay = base64 as string;
+            this.productForm['image'].patchValue(base64 as string);
+            this.productForm['image'].updateValueAndValidity();
+          },
+          error: (error) => {
+            console.error(error);
+          }
+        });
     }
   }
 
@@ -127,73 +140,78 @@ export class ProductsFormComponent implements OnInit {
       return;
     }
 
-    const product: Partial<Product> = {
-      id: this.currentProductId || '',
-      name: this.productForm.name.value,
-      description: this.productForm.description.value,
-      richDescription: this.productForm.richDescription.value,
-      image: this.productForm.image.value,
-      // images: this.productForm.images.value,
-      brand: this.productForm.brand.value,
-      price: this.productForm.price.value,
-      // category: this.productForm.category_id.value as any,
-      // countInStock: this.productForm.countInStock.value,
-      // rating: this.productForm.rating.value,
-      // numReviews: this.productForm.numReviews.value,
-      isFeatured: this.productForm.isFeatured.value,
-      dateCreated: this.productForm.dateCreated.value
-    };
+    const productFormData = new FormData();
+    Object.keys(this.productForm).forEach((key) => {
+      productFormData.append(
+        key,
+        String(this.productForm[key as keyof ProductForm].value)
+      );
+    });
 
     if (this.editMode) {
-      this.updateProduct(product as Product);
+      this.updateProduct(productFormData);
     } else {
-      this.createProduct(product as Product);
+      this.createProduct(productFormData);
     }
   }
 
-  createProduct(product: Product) {
-    this.productsService.createProduct(product);
-    this.form.reset();
-    this.isSubmitted = false;
-
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: `Product ${product.name} is created!`
-    });
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: 'Error',
-    //   detail: 'Product not created!'
-    // });
-
-    timer(2000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.location.back();
+  private createProduct(productData: FormData) {
+    this.productsService
+      .createProduct(productData)
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: (product) => {
+          this.form.reset();
+          this.isSubmitted = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Product ${product.name} is created!`
+          });
+          timer(2000)
+            .pipe(takeUntil(this.unsubs$))
+            .subscribe(() => {
+              this.location.back();
+            });
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Product not created!'
+          });
+        }
       });
   }
 
-  updateProduct(product: Product) {
-    this.productsService.updateProduct(product);
-    this.form.reset();
-    this.isSubmitted = false;
-
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Product updated!'
-    });
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: 'Error',
-    //   detail: 'Product not created!'
-    // });
-
-    timer(2000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.location.back();
+  private updateProduct(productData: FormData) {
+    this.productsService
+      .updateProduct(productData)
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.isSubmitted = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Product updated!'
+          });
+          timer(2000)
+            .pipe(takeUntil(this.unsubs$))
+            .subscribe(() => {
+              this.location.back();
+            });
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Product not updated!'
+          });
+        }
       });
   }
 
@@ -202,26 +220,27 @@ export class ProductsFormComponent implements OnInit {
       this.currentProductId = params['id'] as string;
       if (this.currentProductId) {
         this.editMode = true;
-
         this.productsService
           .getProduct(this.currentProductId)
+          .pipe(takeUntil(this.unsubs$))
           .subscribe((product) => {
             this.form.patchValue({
-              id: this.currentProductId || '',
-              name: product!.name,
-              description: product!.description,
-              richDescription: product!.richDescription,
-              image: product!.image,
+              id: product.id || this.currentProductId || '',
+              name: product.name,
+              description: product.description,
+              richDescription: product.richDescription,
+              image: product.image,
               // images: product!.images,
-              brand: product!.brand,
-              price: product!.price,
-              category: product!.category.id,
-              countInStock: product!.countInStock,
+              brand: product.brand,
+              price: product.price,
+              category: product.category.id,
+              countInStock: product.countInStock,
               // rating: product!.rating,
               // numReviews: product!.numReviews,
-              isFeatured: product!.isFeatured,
-              dateCreated: product!.dateCreated
+              isFeatured: product.isFeatured,
+              dateCreated: product.dateCreated
             });
+            this.form.updateValueAndValidity();
           });
       }
     });

@@ -6,6 +6,7 @@ export interface ProductForm {
   description: FormControl<string>;
   richDescription: FormControl<string>;
   image: FormControl<string>;
+  // image: FormControl<File>;
   // images: FormControl<string[]>;
   brand: FormControl<string>;
   price: FormControl<number>;

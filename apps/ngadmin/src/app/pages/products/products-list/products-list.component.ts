@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product, ProductsService } from '@ngcompany/products';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-products-list',
   templateUrl: './products-list.component.html'
 })
-export class ProductsListComponent implements OnInit {
-  products: Product[] = [];
+export class ProductsListComponent implements OnInit, OnDestroy {
+  protected products: Product[] = [];
+
+  private unsubs$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
@@ -18,9 +21,21 @@ export class ProductsListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.productsService.getProducts().subscribe((products) => {
-      this.products = products;
-    });
+    this.getProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubs$.next();
+    this.unsubs$.complete();
+  }
+
+  getProducts() {
+    this.productsService
+      .getProducts()
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe((products) => {
+        this.products = products;
+      });
   }
 
   updateProduct(productId: string) {
@@ -28,18 +43,26 @@ export class ProductsListComponent implements OnInit {
   }
 
   deleteProduct(productId: string) {
-    this.productsService.deleteProduct(productId);
-
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Product deleted!'
-    });
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: 'Error',
-    //   detail: 'Product not deleted!'
-    // });
+    this.productsService
+      .deleteProduct(productId)
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: () => {
+          this.getProducts();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Product deleted!'
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Product not deleted!'
+          });
+        }
+      });
   }
 
   confirmDeleteProduct(productId: string) {
@@ -49,11 +72,6 @@ export class ProductsListComponent implements OnInit {
       icon: 'pi pi-info-circle',
       accept: () => {
         this.deleteProduct(productId);
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Record deleted'
-        // });
       },
       reject: () => {}
     });
