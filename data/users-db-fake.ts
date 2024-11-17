@@ -14,7 +14,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-1',
       zip: '50309',
       city: 'city-1',
-      country: 'country-1'
+      country: 'US'
     },
     {
       id: '2',
@@ -28,7 +28,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-2',
       zip: '50310',
       city: 'city-2',
-      country: 'country-2'
+      country: 'US'
     },
     {
       id: '3',
@@ -42,7 +42,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-3',
       zip: '50311',
       city: 'city-3',
-      country: 'country-3'
+      country: 'US'
     },
     {
       id: '4',
@@ -56,7 +56,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-4',
       zip: '50312',
       city: 'city-4',
-      country: 'country-4'
+      country: 'US'
     },
     {
       id: '5',
@@ -70,7 +70,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-5',
       zip: '50313',
       city: 'city-5',
-      country: 'country-5'
+      country: 'US'
     },
     {
       id: '6',
@@ -84,7 +84,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-6',
       zip: '50314',
       city: 'city-6',
-      country: 'country-6'
+      country: 'FR'
     },
     {
       id: '7',
@@ -98,7 +98,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-7',
       zip: '50315',
       city: 'city-7',
-      country: 'country-7'
+      country: 'FR'
     },
     {
       id: '8',
@@ -112,7 +112,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-8',
       zip: '50316',
       city: 'city-8',
-      country: 'country-8'
+      country: 'FR'
     },
     {
       id: '9',
@@ -126,7 +126,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-9',
       zip: '50317',
       city: 'city-9',
-      country: 'country-9'
+      country: 'FR'
     },
     {
       id: '10',
@@ -140,7 +140,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-10',
       zip: '50318',
       city: 'city-10',
-      country: 'country-10'
+      country: 'FR'
     },
     {
       id: '11',
@@ -154,7 +154,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-11',
       zip: '50319',
       city: 'city-11',
-      country: 'country-11'
+      country: 'DE'
     },
     {
       id: '12',
@@ -168,7 +168,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-12',
       zip: '50320',
       city: 'city-12',
-      country: 'country-12'
+      country: 'DE'
     },
     {
       id: '13',
@@ -182,7 +182,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-13',
       zip: '50321',
       city: 'city-13',
-      country: 'country-13'
+      country: 'DE'
     },
     {
       id: '14',
@@ -196,7 +196,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-14',
       zip: '50322',
       city: 'city-14',
-      country: 'country-14'
+      country: 'DE'
     },
     {
       id: '15',
@@ -210,7 +210,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-15',
       zip: '50323',
       city: 'city-15',
-      country: 'country-15'
+      country: 'DE'
     },
     {
       id: '16',
@@ -224,7 +224,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-16',
       zip: '50324',
       city: 'city-16',
-      country: 'country-16'
+      country: 'ES'
     },
     {
       id: '17',
@@ -238,7 +238,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-17',
       zip: '50325',
       city: 'city-17',
-      country: 'country-17'
+      country: 'ES'
     },
     {
       id: '18',
@@ -252,7 +252,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-18',
       zip: '50326',
       city: 'city-18',
-      country: 'country-18'
+      country: 'ES'
     },
     {
       id: '19',
@@ -266,7 +266,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-19',
       zip: '50327',
       city: 'city-19',
-      country: 'country-19'
+      country: 'ES'
     },
     {
       id: '20',
@@ -280,7 +280,7 @@ export abstract class UsersFakeDb {
       apartment: 'apartment-20',
       zip: '50328',
       city: 'city-20',
-      country: 'country-20'
+      country: 'ES'
     }
   ];
 }
