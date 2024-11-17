@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 
+import { Product } from '../libs/products/src';
 import { CategoriesFakeDb } from './categories-db-fake';
 import { ProductsFakeDb } from './products-db-fake';
-import { Product } from '../libs/products/src';
+import { UsersFakeDb } from './users-db-fake';
 
 type GenericObject<T> = T & { id: string };
 
@@ -14,7 +15,8 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     return {
       products: ProductsFakeDb.products,
-      categories: CategoriesFakeDb.categories
+      categories: CategoriesFakeDb.categories,
+      users: UsersFakeDb.users
     };
   }
 
