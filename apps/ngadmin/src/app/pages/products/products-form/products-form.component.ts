@@ -8,7 +8,7 @@ import {
   ProductsService
 } from '@ngcompany/products';
 import { MessageService } from 'primeng/api';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { Subject, of, switchMap, take, takeUntil, timer } from 'rxjs';
 
 import { ProductForm } from './product-form';
 
@@ -48,7 +48,7 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
   private getCategories() {
     this.categoriesService
       .getCategories()
-      .pipe(take(1))
+      .pipe(take(1), takeUntil(this.unsubs$))
       .subscribe((categories) => {
         this.categories = categories;
       });
@@ -118,7 +118,7 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
     if (file) {
       this.productsService
         .fileToBase64(file)
-        .pipe(take(1))
+        .pipe(take(1), takeUntil(this.unsubs$))
         .subscribe({
           next: (base64) => {
             this.imageDisplay = base64 as string;
@@ -214,14 +214,21 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
   }
 
   private checkEditMode() {
-    this.route.params.subscribe((params) => {
-      this.currentProductId = params['id'] as string;
-      if (this.currentProductId) {
-        this.editMode = true;
-        this.productsService
-          .getProduct(this.currentProductId)
-          .pipe(takeUntil(this.unsubs$))
-          .subscribe((product) => {
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          this.currentProductId = params['id'] as string;
+          if (this.currentProductId) {
+            this.editMode = true;
+            return this.productsService.getProduct(this.currentProductId);
+          }
+          return of(null);
+        }),
+        takeUntil(this.unsubs$)
+      )
+      .subscribe({
+        next: (product) => {
+          if (product) {
             this.form.patchValue({
               id: product.id || this.currentProductId || '',
               name: product.name,
@@ -241,9 +248,17 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
             this.imageDisplay = product.image;
             this.form.controls['image'].setValidators([]);
             this.form.updateValueAndValidity();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Product not found!'
           });
-      }
-    });
+        }
+      });
   }
 
   get productForm() {

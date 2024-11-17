@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService, Category } from '@ngcompany/products';
 import { MessageService } from 'primeng/api';
-import { Subject, takeUntil, timer } from 'rxjs';
+import { of, Subject, switchMap, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-categories-form',
@@ -132,21 +132,37 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   private checkEditMode() {
-    this.route.params.subscribe((params) => {
-      this.currentCategoryId = params['id'] as string;
-      if (this.currentCategoryId) {
-        this.editMode = true;
-        this.categoriesService
-          .getCategory(this.currentCategoryId)
-          .subscribe((category) => {
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          this.currentCategoryId = params['id'] as string;
+          if (this.currentCategoryId) {
+            this.editMode = true;
+            return this.categoriesService.getCategory(this.currentCategoryId);
+          }
+          return of(null);
+        }),
+        takeUntil(this.unsubs$)
+      )
+      .subscribe({
+        next: (category) => {
+          if (category) {
             this.form.patchValue({
               name: category.name,
               icon: category.icon,
               color: category.color
             });
+          }
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Category not found!'
           });
-      }
-    });
+        }
+      });
   }
 
   get categoryForm() {

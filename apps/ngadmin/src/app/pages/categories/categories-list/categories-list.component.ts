@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesService, Category } from '@ngcompany/products';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-categories-list',
@@ -32,7 +32,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   getCategories() {
     this.categoriesService
       .getCategories()
-      .pipe(takeUntil(this.unsubs$))
+      .pipe(take(1), takeUntil(this.unsubs$))
       .subscribe((categories) => {
         this.categories = categories;
       });
