@@ -18,7 +18,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   isSubmitted = false;
   editMode = false;
   currentUserId: string | null = null;
-  countries: { id: string; name: string }[] = [];
+  countries: { code: string; name: string }[] = [];
 
   private unsubs$ = new Subject<void>();
 
@@ -34,7 +34,6 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     this.getCountries();
     this.createForm();
     this.checkEditMode();
-    this.userForm.email.errors;
   }
 
   ngOnDestroy(): void {

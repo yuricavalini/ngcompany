@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, UsersService } from '@ngcompany/users';
+import { CountriesService } from 'data/countries.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, take, takeUntil } from 'rxjs';
 
@@ -15,6 +16,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
+    private countriesService: CountriesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
@@ -36,6 +38,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
       .subscribe((users) => {
         this.users = users;
       });
+  }
+
+  getCountryName(countryCode: string) {
+    return this.countriesService.getCountryName(countryCode);
   }
 
   updateUser(userId: string) {

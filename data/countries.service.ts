@@ -8,15 +8,15 @@ declare const require: any;
   providedIn: 'root'
 })
 export class CountriesService {
-  private readonly countries: Observable<{ id: string; name: string }[]>;
+  private readonly countries: Observable<{ code: string; name: string }[]>;
 
   constructor() {
     countriesLib.registerLocale(require('i18n-iso-countries/langs/en.json'));
-    this.countries = new Observable<{ id: string; name: string }[]>(
+    this.countries = new Observable<{ code: string; name: string }[]>(
       (observer) => {
         const countries = Object.entries(
           countriesLib.getNames('en', { select: 'official' })
-        ).map((entry) => ({ id: entry[0], name: entry[1] }));
+        ).map((entry) => ({ code: entry[0], name: entry[1] }));
 
         observer.next(countries?.length ? countries : []);
         observer.complete();
@@ -26,5 +26,13 @@ export class CountriesService {
 
   getCountries() {
     return this.countries;
+  }
+
+  getCountryName(countryCode: string) {
+    if (!countryCode) return;
+
+    return countriesLib.getName(countryCode, 'en', {
+      select: 'official'
+    });
   }
 }
