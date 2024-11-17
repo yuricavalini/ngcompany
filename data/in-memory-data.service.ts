@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Order } from '@ngcompany/orders';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 
 import { Product } from '../libs/products/src';
 import { CategoriesFakeDb } from './categories-db-fake';
+import { OrdersFakeDb } from './orders-db-fake';
 import { ProductsFakeDb } from './products-db-fake';
 import { UsersFakeDb } from './users-db-fake';
 
@@ -16,7 +18,8 @@ export class InMemoryDataService implements InMemoryDbService {
     return {
       products: ProductsFakeDb.products,
       categories: CategoriesFakeDb.categories,
-      users: UsersFakeDb.users
+      users: UsersFakeDb.users,
+      orders: OrdersFakeDb.orders
     };
   }
 
@@ -28,6 +31,35 @@ export class InMemoryDataService implements InMemoryDbService {
 
     const maxId = Math.max(...collection.map((item) => parseInt(item.id, 10)));
     return (maxId + 1).toString();
+  }
+
+  // Override the `get` method
+  get(requestInfo: RequestInfo) {
+    const collectionName = requestInfo.collectionName;
+
+    if (collectionName === 'orders') {
+      // Simulate a "join" between orders and users based on `userId`
+      const ordersWithUserData = (requestInfo.collection as Order[]).map(
+        (order) => {
+          const user = UsersFakeDb.users.find(
+            (user) => user.id === order.user.id
+          );
+          return {
+            ...order,
+            user: user ?? null
+          };
+        }
+      );
+
+      // Return the joined data as the response
+      return requestInfo.utils.createResponse$(() => ({
+        body: ordersWithUserData,
+        status: 200
+      }));
+    }
+
+    // Default handling for other collections
+    return undefined;
   }
 
   // Optional: Override POST response
