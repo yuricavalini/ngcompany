@@ -14,7 +14,7 @@ export abstract class OrdersFakeDb {
       zip: '50309',
       country: 'US',
       phone: '123456789',
-      status: 1,
+      status: 0,
       totalPrice: 90,
       user: {
         id: '1'
@@ -33,7 +33,7 @@ export abstract class OrdersFakeDb {
       zip: '50310',
       country: 'US',
       phone: '987654321',
-      status: 2,
+      status: 1,
       totalPrice: 50,
       user: {
         id: '3'
@@ -52,7 +52,7 @@ export abstract class OrdersFakeDb {
       zip: '50311',
       country: 'US',
       phone: '555666777',
-      status: 3,
+      status: 2,
       totalPrice: 150,
       user: {
         id: '5'
@@ -90,7 +90,7 @@ export abstract class OrdersFakeDb {
       zip: '50311',
       country: 'US',
       phone: '555666777',
-      status: 3,
+      status: 4,
       totalPrice: 175,
       user: {
         id: '12'

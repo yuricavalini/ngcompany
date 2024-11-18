@@ -26,13 +26,14 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { InMemoryDataService } from '../../../../data/in-memory-data.service';
 import { CountriesService } from '../../../../data/countries.service';
+import { InMemoryDataService } from '../../../../data/in-memory-data.service';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
 import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OrdersListComponent } from './pages/orders/orders-list/orders-list.component';
 import { ProductsFormComponent } from './pages/products/products-form/products-form.component';
 import { ProductsListComponent } from './pages/products/products-list/products-list.component';
 import { UsersFormComponent } from './pages/users/users-form/users-form.component';
@@ -67,6 +68,7 @@ const UX_MODULES = [
     SidebarComponent,
     CategoriesListComponent,
     CategoriesFormComponent,
+    OrdersListComponent,
     ProductsListComponent,
     ProductsFormComponent,
     UsersListComponent,
