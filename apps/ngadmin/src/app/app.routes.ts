@@ -3,6 +3,7 @@ import { Route } from '@angular/router';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
 import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OrdersDetailsComponent } from './pages/orders/orders-details/orders-details.component';
 import { OrdersListComponent } from './pages/orders/orders-list/orders-list.component';
 import { ProductsFormComponent } from './pages/products/products-form/products-form.component';
 import { ProductsListComponent } from './pages/products/products-list/products-list.component';
@@ -34,6 +35,10 @@ export const appRoutes: Route[] = [
       {
         path: 'orders',
         component: OrdersListComponent
+      },
+      {
+        path: 'orders/:id',
+        component: OrdersDetailsComponent
       },
       {
         path: 'products',

@@ -15,6 +15,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { EditorModule } from 'primeng/editor';
+import { FieldsetModule } from 'primeng/fieldset';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -33,6 +34,7 @@ import { appRoutes } from './app.routes';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
 import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OrdersDetailsComponent } from './pages/orders/orders-details/orders-details.component';
 import { OrdersListComponent } from './pages/orders/orders-list/orders-list.component';
 import { ProductsFormComponent } from './pages/products/products-form/products-form.component';
 import { ProductsListComponent } from './pages/products/products-list/products-list.component';
@@ -48,6 +50,7 @@ const UX_MODULES = [
   ConfirmDialogModule,
   DropdownModule,
   EditorModule,
+  FieldsetModule,
   InputMaskModule,
   InputNumberModule,
   InputSwitchModule,
@@ -69,6 +72,7 @@ const UX_MODULES = [
     CategoriesListComponent,
     CategoriesFormComponent,
     OrdersListComponent,
+    OrdersDetailsComponent,
     ProductsListComponent,
     ProductsFormComponent,
     UsersListComponent,

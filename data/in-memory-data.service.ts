@@ -51,6 +51,13 @@ export class InMemoryDataService implements InMemoryDbService {
         }
       );
 
+      if (requestInfo.id) {
+        return requestInfo.utils.createResponse$(() => ({
+          body: ordersWithUserData.find((order) => order.id === requestInfo.id),
+          status: 200
+        }));
+      }
+
       // Return the joined data as the response
       return requestInfo.utils.createResponse$(() => ({
         body: ordersWithUserData,
