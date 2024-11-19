@@ -3,7 +3,7 @@ import { OrderItem } from './order-item';
 
 export class Order {
   id: string;
-  orderItem: OrderItem;
+  orderItems: OrderItem[];
   shippingAddress1: string;
   shippingAddress2: string;
   city: string;
@@ -17,7 +17,7 @@ export class Order {
 
   constructor({
     id,
-    orderItem,
+    orderItems,
     shippingAddress1,
     shippingAddress2,
     city,
@@ -30,7 +30,7 @@ export class Order {
     dateOrdered
   }: Order) {
     this.id = id;
-    this.orderItem = orderItem;
+    this.orderItems = orderItems;
     this.shippingAddress1 = shippingAddress1;
     this.shippingAddress2 = shippingAddress2;
     this.city = city;

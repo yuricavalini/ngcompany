@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Order } from '@ngcompany/orders';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 
+import { Order } from '../libs/orders/src';
 import { Product } from '../libs/products/src';
 import { CategoriesFakeDb } from './categories-db-fake';
 import { OrdersFakeDb } from './orders-db-fake';
@@ -39,13 +39,27 @@ export class InMemoryDataService implements InMemoryDbService {
 
     if (collectionName === 'orders') {
       // Simulate a "join" between orders and users based on `userId`
-      const ordersWithUserData = (requestInfo.collection as Order[]).map(
+      const ordersDataJoin = (requestInfo.collection as Order[]).map(
         (order) => {
+          const currentOrder = order;
+          const orderItemsDataJoin = order.orderItems.map((orderItem) => {
+            const product = ProductsFakeDb.products.find(
+              (product) => product.id === orderItem.productId
+            );
+            return {
+              ...orderItem,
+              product
+            };
+          });
+
+          currentOrder.orderItems = orderItemsDataJoin;
+
           const user = UsersFakeDb.users.find(
             (user) => user.id === order.user.id
           );
+
           return {
-            ...order,
+            ...currentOrder,
             user: user ?? null
           };
         }
@@ -53,14 +67,14 @@ export class InMemoryDataService implements InMemoryDbService {
 
       if (requestInfo.id) {
         return requestInfo.utils.createResponse$(() => ({
-          body: ordersWithUserData.find((order) => order.id === requestInfo.id),
+          body: ordersDataJoin.find((order) => order.id === requestInfo.id),
           status: 200
         }));
       }
 
       // Return the joined data as the response
       return requestInfo.utils.createResponse$(() => ({
-        body: ordersWithUserData,
+        body: ordersDataJoin,
         status: 200
       }));
     }
@@ -72,6 +86,29 @@ export class InMemoryDataService implements InMemoryDbService {
   // Optional: Override POST response
   put(requestInfo: RequestInfo) {
     const collectionName = requestInfo.collectionName;
+
+    if (collectionName === 'orders') {
+      // Extract raw request body
+      const rawBody = requestInfo.utils.getJsonBody(requestInfo.req);
+
+      // Update number fields
+      rawBody['status'] = String(rawBody['status']);
+
+      // Update the object in the collection
+      const orderIndex = requestInfo.collection.findIndex(
+        (item: Order) => item.id === requestInfo.id
+      );
+      requestInfo.collection[orderIndex] = {
+        ...requestInfo.collection[orderIndex],
+        ...rawBody
+      };
+
+      // Return the created object in the response
+      return requestInfo.utils.createResponse$(() => ({
+        body: requestInfo.collection[orderIndex],
+        status: 200
+      }));
+    }
 
     if (collectionName === 'products') {
       // Extract raw request body

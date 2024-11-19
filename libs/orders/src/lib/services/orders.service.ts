@@ -21,15 +21,12 @@ export class OrdersService {
     return this.http.get<Order>(`${this.apiURLOrders}/${orderId}`);
   }
 
-  createOrder(orderData: FormData) {
-    return this.http.post<Order>(this.apiURLOrders, orderData);
+  createOrder(order: Order) {
+    return this.http.post<Order>(this.apiURLOrders, order);
   }
 
-  updateOrder(orderData: FormData, orderId: string) {
-    return this.http.put<Order>(
-      `${this.apiURLOrders}/${orderId}`,
-      orderData
-    );
+  updateOrder(orderStatus: { status: string }, orderId: string) {
+    return this.http.put<Order>(`${this.apiURLOrders}/${orderId}`, orderStatus);
   }
 
   deleteOrder(orderId: string) {

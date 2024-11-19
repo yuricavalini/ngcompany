@@ -4,35 +4,7 @@ import { Order, OrdersService } from '@ngcompany/orders';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, take, takeUntil } from 'rxjs';
 
-interface OrderStatusListDisplay {
-  [key: number]: {
-    label: string;
-    color: string;
-  };
-}
-
-const ORDER_STATUS: OrderStatusListDisplay = {
-  0: {
-    label: 'Pending',
-    color: 'primary'
-  },
-  1: {
-    label: 'Processed',
-    color: 'warning'
-  },
-  2: {
-    label: 'Shipped',
-    color: 'warning'
-  },
-  3: {
-    label: 'Delivered',
-    color: 'success'
-  },
-  4: {
-    label: 'Failed',
-    color: 'danger'
-  }
-};
+import { ORDER_STATUS } from '../order.constants';
 
 @Component({
   selector: 'ngadmin-orders-list',
@@ -40,7 +12,7 @@ const ORDER_STATUS: OrderStatusListDisplay = {
 })
 export class OrdersListComponent implements OnInit, OnDestroy {
   protected orders: Order[] = [];
-  protected orderStatus = ORDER_STATUS;
+  protected orderStatuses = ORDER_STATUS;
 
   private unsubs$ = new Subject<void>();
 
@@ -60,7 +32,7 @@ export class OrdersListComponent implements OnInit, OnDestroy {
     this.unsubs$.complete();
   }
 
-  getOrders() {
+  private getOrders() {
     this.ordersService
       .getOrders()
       .pipe(take(1), takeUntil(this.unsubs$))
@@ -69,11 +41,7 @@ export class OrdersListComponent implements OnInit, OnDestroy {
       });
   }
 
-  showOrder(orderId: string) {
-    this.router.navigateByUrl(`orders/${orderId}`);
-  }
-
-  deleteOrder(orderId: string) {
+  private deleteOrder(orderId: string) {
     this.ordersService
       .deleteOrder(orderId)
       .pipe(takeUntil(this.unsubs$))
@@ -94,6 +62,10 @@ export class OrdersListComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  showOrder(orderId: string) {
+    this.router.navigateByUrl(`orders/${orderId}`);
   }
 
   confirmDeleteOrder(orderId: string) {

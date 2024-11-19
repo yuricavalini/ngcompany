@@ -4,10 +4,13 @@ export abstract class OrdersFakeDb {
   public static orders: Order[] = [
     {
       id: '1',
-      orderItem: {
-        product: 'Phone XL',
-        quantity: 2
-      },
+      orderItems: [
+        {
+          id: '1',
+          productId: '1',
+          quantity: 2
+        }
+      ],
       shippingAddress1: 'street-1',
       shippingAddress2: 'apartment-1',
       city: 'city-1',
@@ -23,10 +26,13 @@ export abstract class OrdersFakeDb {
     },
     {
       id: '2',
-      orderItem: {
-        product: 'Phone Mini',
-        quantity: 1
-      },
+      orderItems: [
+        {
+          id: '1',
+          productId: '2',
+          quantity: 1
+        }
+      ],
       shippingAddress1: 'street-2',
       shippingAddress2: 'apartment-2',
       city: 'city-2',
@@ -42,10 +48,13 @@ export abstract class OrdersFakeDb {
     },
     {
       id: '3',
-      orderItem: {
-        product: 'Phone Standard',
-        quantity: 3
-      },
+      orderItems: [
+        {
+          id: '1',
+          productId: '3',
+          quantity: 3
+        }
+      ],
       shippingAddress1: 'street-3',
       shippingAddress2: 'apartment-3',
       city: 'city-3',
@@ -61,10 +70,13 @@ export abstract class OrdersFakeDb {
     },
     {
       id: '4',
-      orderItem: {
-        product: 'Phone Standard',
-        quantity: 3
-      },
+      orderItems: [
+        {
+          id: '1',
+          productId: '1',
+          quantity: 3
+        }
+      ],
       shippingAddress1: 'street-3',
       shippingAddress2: 'apartment-3',
       city: 'city-3',
@@ -80,10 +92,13 @@ export abstract class OrdersFakeDb {
     },
     {
       id: '5',
-      orderItem: {
-        product: 'Phone Standard',
-        quantity: 3
-      },
+      orderItems: [
+        {
+          id: '1',
+          productId: '2',
+          quantity: 3
+        }
+      ],
       shippingAddress1: 'street-3',
       shippingAddress2: 'apartment-3',
       city: 'city-3',
