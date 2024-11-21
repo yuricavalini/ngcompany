@@ -2,26 +2,10 @@
   "name": "orders",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/orders/src",
-  "prefix": "orders",
+  "prefix": "ngcompany",
   "tags": [],
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/angular:ng-packagr-lite",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
-      "options": {
-        "project": "libs/orders/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/orders/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/orders/tsconfig.lib.json"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
@@ -40,11 +24,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/orders/**/*.ts",
-          "libs/orders/**/*.html",
-          "libs/orders/package.json"
-        ]
+        "lintFilePatterns": ["libs/orders/**/*.ts", "libs/orders/**/*.html"]
       }
     }
   }
