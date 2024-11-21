@@ -1,12 +1,12 @@
+import { Product } from "@ngcompany/products";
+
 export class OrderItem {
   id: string;
-  productId: string;
-  product?: any;
+  product: Product;
   quantity: number;
 
-  constructor({ id, productId, product, quantity }: OrderItem) {
+  constructor({ id, product, quantity }: OrderItem) {
     this.id = id;
-    this.productId = productId;
     this.product = product;
     this.quantity = quantity;
   }

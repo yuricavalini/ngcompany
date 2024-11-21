@@ -44,8 +44,11 @@ export class InMemoryDataService implements InMemoryDbService {
           const currentOrder = order;
           const orderItemsDataJoin = order.orderItems.map((orderItem) => {
             const product = ProductsFakeDb.products.find(
-              (product) => product.id === orderItem.productId
+              (product) => product.id === orderItem.product.id
             );
+
+            if (!product) return orderItem;
+
             return {
               ...orderItem,
               product
