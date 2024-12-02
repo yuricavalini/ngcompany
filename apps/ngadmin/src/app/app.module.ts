@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { CategoriesService, ProductsService } from '@ngcompany/products';
-import { UsersService } from '@ngcompany/users';
+import { UsersModule, UsersService } from '@ngcompany/users';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -85,11 +85,12 @@ const UX_MODULES = [
     FormsModule,
     ReactiveFormsModule,
     NgOptimizedImage,
+    UsersModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     ...UX_MODULES,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false
-    })
+    }),
   ],
   providers: [
     CategoriesService,
