@@ -37,12 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Login is successful'
-    });
-
     this.isSubmitted = true;
     if (this.form.invalid) return;
 
@@ -50,8 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .login(this.loginForm.email.value, this.loginForm.password.value)
       .pipe(take(1), takeUntil(this.unsubs$))
       .subscribe({
-        next: (response) => {
-          console.log(response);
+        next: () => {
           this.hasAuthError = false;
           this.messageService.add({
             severity: 'success',
@@ -60,7 +53,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           });
         },
         error: (error: HttpErrorResponse) => {
-          console.log(error);
           this.hasAuthError = true;
           if (error.status !== 400) {
             this.authMessage = 'Error in the server. Please, try again later';

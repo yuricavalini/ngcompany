@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 import { usersRoutes } from './lib.routes';
 import { LoginComponent } from './pages/login/login.component';
@@ -16,7 +17,8 @@ import { LoginComponent } from './pages/login/login.component';
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
   ],
   declarations: [LoginComponent],
   providers: [MessageService]

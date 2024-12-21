@@ -208,6 +208,40 @@ export class InMemoryDataService implements InMemoryDbService {
       }));
     }
 
+    if (collectionName === 'users' && requestInfo.id === 'login' ) {
+      // Extract raw request body
+      const rawBody = requestInfo.utils.getJsonBody(requestInfo.req);
+
+      // Find user
+      const user = UsersFakeDb.users.find(
+        (user) => user.email === rawBody['email']
+      );
+
+      // Check if user exists
+      if (!user) {
+        return requestInfo.utils.createResponse$(() => ({
+          body: { error: 'User not found.' },
+          status: 400
+        }));
+      }
+
+      // Check if password is correct
+      if (user.password !== rawBody['password']) {
+        return requestInfo.utils.createResponse$(() => ({
+          body: { error: 'Invalid password.' },
+          status: 400
+        }));
+      }
+
+
+      // Return the user in the response
+      return requestInfo.utils.createResponse$(() => ({
+        body: user,
+        status: 200
+      }));
+
+    }
+
     return undefined; // Default handling for other collections
   }
 
