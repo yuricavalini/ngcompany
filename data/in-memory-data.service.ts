@@ -208,7 +208,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }));
     }
 
-    if (collectionName === 'users' && requestInfo.id === 'login' ) {
+    if (collectionName === 'users' && requestInfo.id === 'login') {
       // Extract raw request body
       const rawBody = requestInfo.utils.getJsonBody(requestInfo.req);
 
@@ -233,13 +233,11 @@ export class InMemoryDataService implements InMemoryDbService {
         }));
       }
 
-
       // Return the user in the response
       return requestInfo.utils.createResponse$(() => ({
         body: user,
         status: 200
       }));
-
     }
 
     return undefined; // Default handling for other collections

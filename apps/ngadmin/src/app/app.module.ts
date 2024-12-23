@@ -1,12 +1,12 @@
 import { NgOptimizedImage } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { CategoriesService, ProductsService } from '@ngcompany/products';
-import { UsersModule, UsersService } from '@ngcompany/users';
+import { JwtInterceptor, UsersModule, UsersService } from '@ngcompany/users';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -98,7 +98,10 @@ const UX_MODULES = [
     UsersService,
     CountriesService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
