@@ -1,10 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject, take, takeUntil } from 'rxjs';
 
-import { AuthService } from '../../service/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+import { JwTService } from '../../services/jwt.service';
 
 @Component({
   selector: 'users-login',
@@ -24,7 +26,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private jwtService: JwTService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -44,13 +48,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       .login(this.loginForm.email.value, this.loginForm.password.value)
       .pipe(take(1), takeUntil(this.unsubs$))
       .subscribe({
-        next: () => {
+        next: (user) => {
           this.hasAuthError = false;
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Login is successful'
           });
+          this.jwtService.setToken(user.token);
+          this.router.navigate(['/']);
         },
         error: (error: HttpErrorResponse) => {
           this.hasAuthError = true;

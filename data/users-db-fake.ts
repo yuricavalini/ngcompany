@@ -8,7 +8,8 @@ export abstract class UsersFakeDb {
       password: 'admin',
       email: 'johndoe@email.com',
       phone: '123456789',
-      token: 'token1',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwibmFtZSI6IkpvaG4gRG9lIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjIwMTYyMzkwMjJ9.TsjznfuMt4l26Jr7NH0YNIvfj0h1LoCbmaN7bdyL4vI',
       isAdmin: true,
       street: 'street-1',
       apartment: 'apartment-1',
@@ -22,7 +23,8 @@ export abstract class UsersFakeDb {
       password: 'password123',
       email: 'janesmith@email.com',
       phone: '987654321',
-      token: 'token2',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwibmFtZSI6IkphbmUgU21pdGgiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjIwMTYyMzkwMjJ9.Qg5J7H3xhKy-2RpF1TGYp2DFKbeOd75jqvylHEfWuuI',
       isAdmin: false,
       street: 'street-2',
       apartment: 'apartment-2',
@@ -36,7 +38,8 @@ export abstract class UsersFakeDb {
       password: 'alice123',
       email: 'alicejohnson@email.com',
       phone: '555666777',
-      token: 'token3',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwibmFtZSI6IkFsaWNlIEpvaG5zb24iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTUxNjIzOTAyMn0.IP0zfhSZqJlhUexiRDEH9BFROyIR6u7fMGWXcdbkeSE',
       isAdmin: true,
       street: 'street-3',
       apartment: 'apartment-3',
@@ -50,7 +53,8 @@ export abstract class UsersFakeDb {
       password: 'bobpassword',
       email: 'bobbrown@email.com',
       phone: '444555666',
-      token: 'token4',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0IiwibmFtZSI6IkJvYiBCcm93biIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTUxNjIzOTAyMn0.7dYaux3kgYXaxxFSkKWdWVv6ZyZiacO7rdOM9sS30Ak',
       isAdmin: false,
       street: 'street-4',
       apartment: 'apartment-4',
