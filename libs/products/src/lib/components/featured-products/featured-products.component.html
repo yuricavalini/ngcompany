@@ -1,0 +1,9 @@
+<div class="featured-products">
+  <h3>Featured Procuts</h3>
+
+  <div class="flex">
+    <div class="col-3" *ngFor="let product of featuredProducts">
+      <ngcompany-products-product-item [product]="product"></ngcompany-products-product-item>
+    </div>
+  </div>
+</div>
