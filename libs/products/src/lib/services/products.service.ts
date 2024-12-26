@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { Product } from '../models/product';
 
@@ -15,6 +15,12 @@ export class ProductsService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiURLProducts);
+  }
+
+  getProductsCount(): Observable<{ productsCount: number }> {
+    return this.http
+      .get<Product[]>(this.apiURLProducts)
+      .pipe(map((products) => ({ productsCount: products.length })));
   }
 
   getProduct(productId: string) {

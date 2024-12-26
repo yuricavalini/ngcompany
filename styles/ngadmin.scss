@@ -9,10 +9,12 @@
 @import 'primeng/resources/themes/saga-blue/theme.css';
 @import 'primeng/resources/primeng.css';
 @import 'primeflex/primeflex.css';
+
 @import './base/configuration.scss';
 
 // Shared
 @import './apps/admin/shared/shell.scss';
+@import './apps/admin/shared/dashboard.scss';
 
 // Libs
 @import './libs/ui/ui.scss';

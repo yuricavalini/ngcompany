@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { Order } from '../models/order';
 
@@ -15,6 +15,20 @@ export class OrdersService {
 
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiURLOrders);
+  }
+
+  getOrdersCount(): Observable<{ ordersCount: number }> {
+    return this.http
+      .get<Order[]>(this.apiURLOrders)
+      .pipe(map((orders) => ({ ordersCount: orders.length })));
+  }
+
+  getTotalSales(): Observable<{ totalSales: number }> {
+    return this.http.get<Order[]>(this.apiURLOrders).pipe(
+      map((orders) => ({
+        totalSales: orders.reduce((acc, order) => acc + order.totalPrice, 0)
+      }))
+    );
   }
 
   getOrder(orderId: string) {
