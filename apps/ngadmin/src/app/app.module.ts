@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { CategoriesService, ProductsService } from '@ngcompany/products';
 import { JwtInterceptor, UsersModule, UsersService } from '@ngcompany/users';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -29,8 +28,8 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { CountriesService } from '../../../../data/countries.service';
 import { InMemoryDataService } from '../../../../data/in-memory-data.service';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { appRoutes } from './app.routes';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
 import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -79,6 +78,7 @@ const UX_MODULES = [
     UsersFormComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -86,7 +86,6 @@ const UX_MODULES = [
     ReactiveFormsModule,
     NgOptimizedImage,
     UsersModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     ...UX_MODULES,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false

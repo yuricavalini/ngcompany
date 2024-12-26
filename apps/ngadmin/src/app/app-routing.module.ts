@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import { Route, RouterModule } from '@angular/router';
 import { AuthGuard } from '@ngcompany/users';
 
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
@@ -11,15 +11,16 @@ import { ProductsListComponent } from './pages/products/products-list/products-l
 import { UsersFormComponent } from './pages/users/users-form/users-form.component';
 import { UsersListComponent } from './pages/users/users-list/users-list.component';
 import { ShellComponent } from './shared/shell/shell.component';
+import { NgModule } from '@angular/core';
 
-export const appRoutes: Route[] = [
+const routes: Route[] = [
   {
     path: '',
     component: ShellComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard',
+        path: '',
         component: DashboardComponent
       },
       {
@@ -65,7 +66,21 @@ export const appRoutes: Route[] = [
       {
         path: 'users/form/:id',
         component: UsersFormComponent
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: ''
       }
     ]
   }
 ];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' })
+  ],
+  exports: [RouterModule],
+  providers: []
+})
+export class AppRoutingModule {}
