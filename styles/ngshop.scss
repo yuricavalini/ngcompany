@@ -9,6 +9,7 @@
 @import 'primeng/resources/themes/saga-blue/theme.css';
 @import 'primeng/resources/primeng.css';
 @import 'primeflex/primeflex.css';
+
 @import './base/configuration.scss';
 
 // Pages
@@ -18,6 +19,15 @@
 // Shared
 @import './apps/shop/shared/header.scss';
 @import './apps/shop/shared/footer.scss';
+@import './apps/shop/shared/nav.scss';
 
 // Libs
-@import './libs/ui/ui.scss';
+@import './libs/products/products.scss';
+
+
+.container {
+  width: 1200px;
+  padding: 15px;
+  margin: 0 auto;
+  background-color: var(--surface-100);
+}
