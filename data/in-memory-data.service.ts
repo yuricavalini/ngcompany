@@ -37,6 +37,18 @@ export class InMemoryDataService implements InMemoryDbService {
   get(requestInfo: RequestInfo) {
     const collectionName = requestInfo.collectionName;
 
+    if (collectionName === 'products' && requestInfo.url.includes('featured')) {
+      const count = parseInt(requestInfo.url[requestInfo.url.length - 1]);
+      const featuredProducts = ProductsFakeDb.products.filter(
+        (product) => product.isFeatured
+      );
+
+      return requestInfo.utils.createResponse$(() => ({
+        body: featuredProducts.slice(0, count),
+        status: 200
+      }));
+    }
+
     if (collectionName === 'orders') {
       // Simulate a "join" between orders and users based on `userId`
       const ordersDataJoin = (requestInfo.collection as Order[]).map(
