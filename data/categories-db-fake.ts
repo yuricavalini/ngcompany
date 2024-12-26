@@ -31,6 +31,12 @@ export abstract class CategoriesFakeDb {
       name: 'Games',
       icon: 'sun',
       color: '#FFB8B8'
+    },
+    {
+      id: '6',
+      name: 'Cameras',
+      icon: 'camera',
+      color: '#E0CCE5'
     }
   ];
 }
