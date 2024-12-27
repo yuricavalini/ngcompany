@@ -1,6 +1,30 @@
 <div class="products-list">
   <div class="flex">
-    <div class="col-3">Categories</div>
-    <div class="col-9">ngcompany-products-categories-banner</div>
+    <div class="col-3">
+      <h4>Categories</h4>
+      <div
+        class="field-checkbox"
+        *ngFor="let category of categoryListItens; let i = index"
+      >
+        <label for="{{ category.id }}">
+          <p-checkbox
+            [(ngModel)]="category.selected"
+            [binary]="true"
+            [inputId]="category.id"
+            (onChange)="categoryFilter()"
+          />
+          {{ category.name }}
+        </label>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="flex flex-wrap" *ngIf="products.length">
+        <div class="col-4" *ngFor="let product of products">
+          <ngcompany-products-product-item
+            [product]="product"
+          ></ngcompany-products-product-item>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

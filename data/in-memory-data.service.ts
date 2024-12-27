@@ -37,16 +37,33 @@ export class InMemoryDataService implements InMemoryDbService {
   get(requestInfo: RequestInfo) {
     const collectionName = requestInfo.collectionName;
 
-    if (collectionName === 'products' && requestInfo.url.includes('featured')) {
-      const count = parseInt(requestInfo.url[requestInfo.url.length - 1]);
-      const featuredProducts = ProductsFakeDb.products.filter(
-        (product) => product.isFeatured
-      );
+    if (collectionName === 'products') {
+      if (requestInfo.url.includes('featured')) {
+        const count = parseInt(requestInfo.url[requestInfo.url.length - 1]);
+        const featuredProducts = ProductsFakeDb.products.filter(
+          (product) => product.isFeatured
+        );
 
-      return requestInfo.utils.createResponse$(() => ({
-        body: featuredProducts.slice(0, count),
-        status: 200
-      }));
+        return requestInfo.utils.createResponse$(() => ({
+          body: featuredProducts.slice(0, count),
+          status: 200
+        }));
+      }
+
+      const query = requestInfo.query;
+      const hasCategoriesParams = query.has('categories');
+      const categoriesParams = query.get('categories');
+
+      if (hasCategoriesParams && categoriesParams?.length) {
+        const filteredProducts = ProductsFakeDb.products.filter((product) =>
+          categoriesParams.includes(product.category.id)
+        );
+
+        return requestInfo.utils.createResponse$(() => ({
+          body: filteredProducts,
+          status: 200
+        }));
+      }
     }
 
     if (collectionName === 'orders') {
