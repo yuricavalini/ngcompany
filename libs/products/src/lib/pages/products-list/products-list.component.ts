@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   combineLatest,
   debounceTime,
@@ -9,7 +10,7 @@ import {
   switchMap,
   take,
   takeUntil,
-  tap
+  tap,
 } from 'rxjs';
 
 import { Category } from '../../models/category';
@@ -29,13 +30,15 @@ interface CategoryListItem extends Category {
 export class ProductsListComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   categoryListItens: CategoryListItem[] = [];
+  isCategoryPage = false;
 
   private categoryFilterSubject = new Subject<void>();
   private unsubs$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
-    private categoriesService: CategoriesService
+    private categoriesService: CategoriesService,
+    private router: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -53,9 +56,21 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   private loadData() {
-    return combineLatest([this.getProducts(), this.getCategoryListItens()])
+    return this.router.params
       .pipe(
         take(1),
+        map((params) => params['categoryId'] as string | undefined),
+        tap((categoryId) => {
+          categoryId
+            ? (this.isCategoryPage = true)
+            : (this.isCategoryPage = false);
+        }),
+        switchMap((categoryId) => {
+          return combineLatest([
+            this.getProducts(categoryId ? [categoryId] : undefined),
+            this.getCategoryListItens()
+          ]).pipe(take(1));
+        }),
         tap(([products, categoriesListItens]) => {
           this.products = products;
           this.categoryListItens = categoriesListItens;

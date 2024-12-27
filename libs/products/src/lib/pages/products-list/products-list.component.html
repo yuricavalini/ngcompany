@@ -1,6 +1,6 @@
 <div class="products-list">
   <div class="flex">
-    <div class="col-3">
+    <div class="col-3" *ngIf="!isCategoryPage">
       <h4>Categories</h4>
       <div
         class="field-checkbox"
@@ -17,9 +17,12 @@
         </label>
       </div>
     </div>
-    <div class="col-9">
+    <div [ngClass]="{ 'col-9': !isCategoryPage, 'col-12': isCategoryPage }">
       <div class="flex flex-wrap" *ngIf="products.length">
-        <div class="col-4" *ngFor="let product of products">
+        <div
+          [ngClass]="{ 'col-4': !isCategoryPage, 'col-3': isCategoryPage }"
+          *ngFor="let product of products"
+        >
           <ngcompany-products-product-item
             [product]="product"
           ></ngcompany-products-product-item>
