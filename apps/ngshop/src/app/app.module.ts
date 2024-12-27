@@ -11,7 +11,6 @@ import { InMemoryDataService } from '../../../../data/in-memory-data.service';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { HomeComponent } from './pages/home/home.component';
-import { ProductsListComponent } from './pages/products-list/products-list.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { NavComponent } from './shared/nav/nav.component';
@@ -20,7 +19,6 @@ import { NavComponent } from './shared/nav/nav.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    ProductsListComponent,
     HeaderComponent,
     FooterComponent,
     NavComponent

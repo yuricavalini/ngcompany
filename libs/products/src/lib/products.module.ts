@@ -7,22 +7,24 @@ import { CategoriesBannerComponent } from './components/categories-banner/catego
 import { FeaturedProductsComponent } from './components/featured-products/featured-products.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { ProductsSearchComponent } from './components/products-search/products-search.component';
+import { productsRoutes } from './lib.routes';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ButtonModule
-
-  ],
+  imports: [CommonModule, RouterModule.forChild(productsRoutes), ButtonModule],
   declarations: [
     ProductsSearchComponent,
     CategoriesBannerComponent,
     FeaturedProductsComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    ProductsListComponent
   ],
   exports: [
     ProductsSearchComponent,
     CategoriesBannerComponent,
     FeaturedProductsComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    ProductsListComponent
   ]
 })
 export class ProductsModule {}
