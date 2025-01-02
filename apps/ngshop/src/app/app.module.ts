@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { OrdersModule } from '@ngcompany/orders';
 import { ProductsModule } from '@ngcompany/products';
 import { UiModule } from '@ngcompany/ui';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -30,9 +31,10 @@ import { NavComponent } from './shared/nav/nav.component';
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     UiModule,
     ProductsModule,
+    OrdersModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false
-    })
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
