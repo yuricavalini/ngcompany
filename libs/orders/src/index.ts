@@ -9,3 +9,5 @@ export * from './lib/models/cart';
 export * from './lib/models/cart-item';
 
 export * from './lib/components/cart-icon/cart-icon.component';
+
+export * from './lib/pages/cart/cart.component';

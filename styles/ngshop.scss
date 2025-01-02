@@ -13,19 +13,19 @@
 
 @import './base/configuration.scss';
 
-// Pages
-@import './apps/shop/pages/home.scss';
-@import './apps/shop/pages/products-list.scss';
-
 // Shared
 @import './apps/shop/shared/header.scss';
 @import './apps/shop/shared/footer.scss';
 @import './apps/shop/shared/nav.scss';
 
+// Pages
+@import './apps/shop/pages/home.scss';
+@import './apps/shop/pages/products-list.scss';
+
 // Libs
 @import './libs/products/products.scss';
+@import './libs/orders/orders.scss';
 @import './libs/ui/ui.scss';
-
 
 .container {
   width: 1200px;
