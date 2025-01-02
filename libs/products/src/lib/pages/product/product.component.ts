@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem, CartService } from '@ngcompany/orders';
+import { MessageService } from 'primeng/api';
 import { EMPTY, map, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 
 import { Product } from '../../models/product';
@@ -12,13 +14,15 @@ import { ProductsService } from '../../services/products.service';
 })
 export class ProductComponent implements OnInit, OnDestroy {
   product: Product | null = null;
-  quantity: number | null = null;
+  quantity = 1;
 
   private unsubs$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +35,19 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   addProductToCart() {
+    if (!this.product) return;
 
+    const cartItem = new CartItem({
+      productId: this.product.id,
+      quantity: this.quantity
+    });
+    this.cartService.setCartItem(cartItem);
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Cart Updated!'
+    });
   }
 
   private loadProduct() {
@@ -56,6 +72,4 @@ export class ProductComponent implements OnInit, OnDestroy {
       .getProduct(productId)
       .pipe(take(1), takeUntil(this.unsubs$));
   }
-
-
 }

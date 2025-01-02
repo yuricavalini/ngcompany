@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="product-page" *ngIf="product">
   <div class="flex">
     <div class="col-6">
@@ -28,7 +29,7 @@
             inputId="quantity"
             mode="decimal"
             [showButtons]="true"
-            [min]="0"
+            [min]="1"
             [max]="100"
           >
           </p-inputNumber>

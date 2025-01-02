@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UiModule } from '@ngcompany/ui';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
 import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 import { CategoriesBannerComponent } from './components/categories-banner/categories-banner.component';
 import { FeaturedProductsComponent } from './components/featured-products/featured-products.component';
@@ -26,6 +28,7 @@ import { ProductsListComponent } from './pages/products-list/products-list.compo
     RatingModule,
     InputNumberModule,
     RippleModule,
+    ToastModule,
     FormsModule,
     UiModule
   ],
@@ -44,6 +47,7 @@ import { ProductsListComponent } from './pages/products-list/products-list.compo
     ProductItemComponent,
     ProductsListComponent,
     ProductComponent
-  ]
+  ],
+  providers: [MessageService]
 })
 export class ProductsModule {}
