@@ -15,6 +15,8 @@ header {
 
   .tools {
     padding-top: 25px;
+    display: flex;
+    justify-content: space-between;
 
     .pi {
       margin-right: 10px;
