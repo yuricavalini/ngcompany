@@ -10,5 +10,6 @@ export * from './lib/models/cart-item';
 export * from './lib/models/cart-item-detailed';
 
 export * from './lib/components/cart-icon/cart-icon.component';
+export * from './lib/components/order-summary/order-summary.component';
 
 export * from './lib/pages/cart/cart.component';

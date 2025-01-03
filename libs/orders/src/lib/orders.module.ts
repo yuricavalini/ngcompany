@@ -8,6 +8,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
 
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { ordersRoutes } from './lib.routes';
 import { CartComponent } from './pages/cart/cart.component';
 import { CartService } from './services/cart.service';
@@ -21,8 +22,8 @@ import { CartService } from './services/cart.service';
     InputNumberModule,
     ToastModule
   ],
-  declarations: [CartIconComponent, CartComponent],
-  exports: [CartIconComponent, CartComponent],
+  declarations: [CartIconComponent, CartComponent, OrderSummaryComponent],
+  exports: [CartIconComponent, CartComponent, OrderSummaryComponent],
   providers: [MessageService]
 })
 export class OrdersModule {

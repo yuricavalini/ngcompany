@@ -1,6 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import {
   combineLatest,
   map,
@@ -17,25 +15,21 @@ import { CartService } from '../../services/cart.service';
 import { OrdersService } from '../../services/orders.service';
 
 @Component({
-  selector: 'ngcompany-orders-cart',
-  templateUrl: './cart.component.html',
+  selector: 'ngcompany-orders-order-summary',
+  templateUrl: './order-summary.component.html',
   styles: []
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class OrderSummaryComponent implements OnInit, OnDestroy {
   private unsubs$ = new Subject<void>();
-
-  cartItemsDetailed: CartItemDetailed[] = [];
-  cartCount = 0;
+  totalPrice = 0;
 
   constructor(
-    private router: Router,
-    private cartService: CartService,
     private ordersService: OrdersService,
-    private messageService: MessageService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
-    this.getCartDetails();
+    this.getOrderSummary();
   }
 
   ngOnDestroy(): void {
@@ -43,7 +37,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.unsubs$.complete();
   }
 
-  private getCartDetails() {
+  private getOrderSummary() {
     this.cartService.cart
       .pipe(
         switchMap((cart) => {
@@ -65,25 +59,16 @@ export class CartComponent implements OnInit, OnDestroy {
           );
           return combineLatest(cartItemObservables$).pipe(take(1));
         }),
-        tap((cartItems) => {
-          this.cartItemsDetailed = cartItems;
-          this.cartCount = cartItems.length;
-        }),
+        map((cartItems) =>
+          cartItems.reduce(
+            (totalPrice, cartItem) =>
+              totalPrice + cartItem.product.price * cartItem.quantity,
+            0
+          )
+        ),
+        tap((cartItemsDetailed) => (this.totalPrice = cartItemsDetailed)),
         takeUntil(this.unsubs$)
       )
       .subscribe();
-  }
-
-  backToShop() {
-    this.router.navigate(['/products']);
-  }
-
-  deleteCartItem(cartItem: CartItemDetailed) {
-    this.cartService.deleteCartItem(cartItem.product.id);
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Cart Updated!'
-    });
   }
 }
