@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem, CartItemDetailed, CartService } from '@ngcompany/orders';
+import { MessageService } from 'primeng/api';
 import {
   combineLatest,
   debounceTime,
@@ -38,7 +40,9 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   constructor(
     private productsService: ProductsService,
     private categoriesService: CategoriesService,
-    private router: ActivatedRoute
+    private cartService: CartService,
+    private router: ActivatedRoute,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -118,5 +122,25 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     return this.categoryListItens
       .filter((category) => category.selected)
       .map((category) => category.id);
+  }
+
+  private addProductToCart({ product, quantity }: CartItemDetailed) {
+    if (!product) return;
+
+    const cartItem = new CartItem({
+      productId: product.id,
+      quantity: quantity
+    });
+    this.cartService.setCartItem(cartItem);
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Cart Updated!'
+    });
+  }
+
+  onProductAdded({ product, quantity }: CartItemDetailed) {
+    this.addProductToCart({ product, quantity });
   }
 }

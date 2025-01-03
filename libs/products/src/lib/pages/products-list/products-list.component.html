@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="products-list">
   <div class="flex">
     <div class="col-3" *ngIf="!isCategoryPage">
@@ -25,6 +26,7 @@
         >
           <ngcompany-products-product-item
             [product]="product"
+            (productAdded)="onProductAdded($event)"
           ></ngcompany-products-product-item>
         </div>
       </div>
