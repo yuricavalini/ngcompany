@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="cart-page">
   <div class="flex">
     <div class="col-8">
@@ -11,7 +12,7 @@
       </div>
 
       <div>
-        <h4>My Cart: {{ 2 }} Item(s)</h4>
+        <h4>My Cart: {{ cartCount }} Item(s)</h4>
       </div>
 
       <div class="cart-shipping mb-5">
@@ -37,7 +38,7 @@
                 type="button"
                 icon="pi pi-trash"
                 styleClass="p-button-danger"
-                (onClick)="deleteCartItem()"
+                (onClick)="deleteCartItem(cartItem)"
               ></p-button>
             </div>
           </div>

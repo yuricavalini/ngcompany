@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ToastModule } from 'primeng/toast';
 
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { ordersRoutes } from './lib.routes';
@@ -16,10 +18,12 @@ import { CartService } from './services/cart.service';
     RouterModule.forChild(ordersRoutes),
     BadgeModule,
     ButtonModule,
-    InputNumberModule
+    InputNumberModule,
+    ToastModule
   ],
   declarations: [CartIconComponent, CartComponent],
-  exports: [CartIconComponent, CartComponent]
+  exports: [CartIconComponent, CartComponent],
+  providers: [MessageService]
 })
 export class OrdersModule {
   constructor(private cartService: CartService) {

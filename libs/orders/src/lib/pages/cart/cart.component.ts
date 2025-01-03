@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import {
   combineLatest,
   map,
@@ -24,11 +25,13 @@ export class CartComponent implements OnInit, OnDestroy {
   private unsubs$ = new Subject<void>();
 
   cartItemsDetailed: CartItemDetailed[] = [];
+  cartCount = 0;
 
   constructor(
     private router: Router,
     private cartService: CartService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -41,9 +44,8 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   private getCartDetails() {
-    this.cartService.cart$
+    this.cartService.cart
       .pipe(
-        take(1),
         switchMap((cart) => {
           if (!cart || cart.items.length === 0) {
             return of([]);
@@ -61,9 +63,12 @@ export class CartComponent implements OnInit, OnDestroy {
               )
             )
           );
-          return combineLatest(productObservables$);
+          return combineLatest(productObservables$).pipe(take(1));
         }),
-        tap((cartItems) => (this.cartItemsDetailed = cartItems)),
+        tap((cartItems) => {
+          this.cartItemsDetailed = cartItems;
+          this.cartCount = cartItems.length;
+        }),
         takeUntil(this.unsubs$)
       )
       .subscribe();
@@ -73,5 +78,12 @@ export class CartComponent implements OnInit, OnDestroy {
     this.router.navigate(['/products']);
   }
 
-  deleteCartItem() {}
+  deleteCartItem(cartItem: CartItemDetailed) {
+    this.cartService.deleteCartItem(cartItem.product.id);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Cart Updated!'
+    });
+  }
 }

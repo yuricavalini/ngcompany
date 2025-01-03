@@ -9,7 +9,7 @@ import { CartItem } from '../models/cart-item';
 })
 export class CartService {
   private readonly CART_KEY = 'cart';
-  cart$ = new BehaviorSubject<Cart | null>(this.getCart());
+  cart = new BehaviorSubject<Cart | null>(this.getCart());
 
   constructor() {}
 
@@ -40,7 +40,7 @@ export class CartService {
     }
 
     this.setCart(cart);
-    this.cart$.next(cart);
+    this.cart.next(cart);
     return cart;
   }
 
@@ -53,6 +53,21 @@ export class CartService {
 
   removeCart() {
     localStorage.removeItem(this.CART_KEY);
+  }
+
+  deleteCartItem(productId: string) {
+    const cart = this.getCart();
+    if (!cart) return;
+
+    const cartItemIndex = cart.items.findIndex(
+      (item) => item.productId === productId
+    );
+
+    if (cartItemIndex === -1) return;
+
+    cart.items.splice(cartItemIndex, 1);
+    this.setCart(cart);
+    this.cart.next(cart);
   }
 
   private setCart(cart: Cart) {

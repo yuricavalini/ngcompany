@@ -17,7 +17,7 @@ export class CartIconComponent implements OnInit, OnDestroy {
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.cartService.cart$.pipe(takeUntil(this.unsubs$)).subscribe((cart) => {
+    this.cartService.cart.pipe(takeUntil(this.unsubs$)).subscribe((cart) => {
       if (cart) {
         this.cartCount = cart.items.length;
         this.cartCountString = this.cartCount.toString();
