@@ -20,7 +20,7 @@ export class CartService {
     }
   }
 
-  setCartItem(cartItem: CartItem): Cart {
+  setCartItem(cartItem: CartItem, updateCartItem?: boolean): Cart {
     const cart = this.getCart();
 
     if (!cart) {
@@ -32,9 +32,12 @@ export class CartService {
     );
 
     if (cartItemExists !== -1) {
-      cart.items[cartItemExists].quantity = cart.items[
-        cartItemExists
-      ].quantity += cartItem.quantity;
+      if (updateCartItem) {
+        cart.items[cartItemExists].quantity = cartItem.quantity;
+      } else {
+        cart.items[cartItemExists].quantity =
+          cart.items[cartItemExists].quantity + cartItem.quantity;
+      }
     } else {
       cart.items.push(cartItem);
     }

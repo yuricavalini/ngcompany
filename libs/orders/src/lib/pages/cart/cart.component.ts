@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { InputNumberInputEvent } from 'primeng/inputnumber';
 import {
   combineLatest,
   map,
@@ -12,6 +13,7 @@ import {
   tap
 } from 'rxjs';
 
+import { CartItem } from '../../models/cart-item';
 import { CartItemDetailed } from '../../models/cart-item-detailed';
 import { CartService } from '../../services/cart.service';
 import { OrdersService } from '../../services/orders.service';
@@ -76,6 +78,24 @@ export class CartComponent implements OnInit, OnDestroy {
 
   backToShop() {
     this.router.navigate(['/products']);
+  }
+
+  updateCartItemQuantity(
+    event: InputNumberInputEvent,
+    cartItem: CartItemDetailed
+  ) {
+    this.cartService.setCartItem(
+      new CartItem({
+        productId: cartItem.product.id,
+        quantity: parseFloat(event.value)
+      }),
+      true
+    );
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Cart Updated!'
+    });
   }
 
   deleteCartItem(cartItem: CartItemDetailed) {
