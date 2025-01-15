@@ -1,17 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { ordersRoutes } from './lib.routes';
 import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { CartService } from './services/cart.service';
 
 @NgModule({
@@ -19,13 +24,29 @@ import { CartService } from './services/cart.service';
     CommonModule,
     RouterModule.forChild(ordersRoutes),
     FormsModule,
+    ReactiveFormsModule,
     BadgeModule,
     ButtonModule,
+    InputTextModule,
     InputNumberModule,
-    ToastModule
+    InputMaskModule,
+    ToastModule,
+    DropdownModule
   ],
-  declarations: [CartIconComponent, CartComponent, OrderSummaryComponent],
-  exports: [CartIconComponent, CartComponent, OrderSummaryComponent],
+  declarations: [
+    CartIconComponent,
+    CartComponent,
+    OrderSummaryComponent,
+    CheckoutComponent,
+    ThankYouComponent
+  ],
+  exports: [
+    CartIconComponent,
+    CartComponent,
+    OrderSummaryComponent,
+    CheckoutComponent,
+    ThankYouComponent
+  ],
   providers: [MessageService]
 })
 export class OrdersModule {

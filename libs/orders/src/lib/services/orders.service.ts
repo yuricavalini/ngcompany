@@ -4,6 +4,7 @@ import { Product } from '@ngcompany/products';
 import { map, Observable } from 'rxjs';
 
 import { Order } from '../models/order';
+import { CreateOrderDTO } from '../models/create-order-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,8 @@ export class OrdersService {
     return this.http.get<Order>(`${this.apiURLOrders}/${orderId}`);
   }
 
-  createOrder(order: Order) {
-    return this.http.post<Order>(this.apiURLOrders, order);
+  createOrder(order: CreateOrderDTO) {
+    return this.http.post<CreateOrderDTO>(this.apiURLOrders, order);
   }
 
   updateOrder(orderStatus: { status: string }, orderId: string) {

@@ -54,8 +54,10 @@ export class CartService {
     return JSON.parse(cartJsonString) as Cart;
   }
 
-  removeCart() {
-    localStorage.removeItem(this.CART_KEY);
+  clearCart() {
+    const cart = new Cart([]);
+    this.setCart(cart);
+    this.cart.next(cart);
   }
 
   deleteCartItem(productId: string) {

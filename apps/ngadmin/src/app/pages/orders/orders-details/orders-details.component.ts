@@ -1,11 +1,9 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Order, OrdersService } from '@ngcompany/orders';
+import { Order, ORDER_STATUS, OrdersService } from '@ngcompany/orders';
 import { MessageService } from 'primeng/api';
-import { of, Subject, switchMap, takeUntil } from 'rxjs';
-import { ORDER_STATUS } from '../order.constants';
 import { DropdownChangeEvent } from 'primeng/dropdown';
+import { of, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-orders-details',
@@ -22,7 +20,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private ordersService: OrdersService,
     private messageService: MessageService,
-    private location: Location,
     private route: ActivatedRoute
   ) {}
 
