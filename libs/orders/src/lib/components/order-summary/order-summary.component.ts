@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   combineLatest,
   map,
@@ -22,19 +23,28 @@ import { OrdersService } from '../../services/orders.service';
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   private unsubs$ = new Subject<void>();
   totalPrice = 0;
+  isCheckout = false;
 
   constructor(
     private ordersService: OrdersService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.verifyIsCheckout();
     this.getOrderSummary();
   }
 
   ngOnDestroy(): void {
     this.unsubs$.next();
     this.unsubs$.complete();
+  }
+
+  private verifyIsCheckout() {
+    this.router.url.includes('checkout')
+      ? (this.isCheckout = true)
+      : (this.isCheckout = false);
   }
 
   private getOrderSummary() {
@@ -70,5 +80,9 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubs$)
       )
       .subscribe();
+  }
+
+  navigateToCheckout() {
+    this.router.navigate(['/checkout']);
   }
 }
