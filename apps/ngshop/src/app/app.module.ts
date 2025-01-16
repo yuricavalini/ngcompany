@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,10 +6,11 @@ import { RouterModule } from '@angular/router';
 import { OrdersModule } from '@ngcompany/orders';
 import { ProductsModule } from '@ngcompany/products';
 import { UiModule } from '@ngcompany/ui';
-import { UsersModule } from '@ngcompany/users';
+import { JwtInterceptor, UsersModule } from '@ngcompany/users';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { MessageService } from 'primeng/api';
 
 import { InMemoryDataService } from '../../../../data/in-memory-data.service';
 import { AppComponent } from './app.component';
@@ -42,7 +43,14 @@ import { NavComponent } from './shared/nav/nav.component';
       dataEncapsulation: false
     })
   ],
-  providers: [],
+  providers: [
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
