@@ -5,20 +5,22 @@ import {
   Router,
   RouterStateSnapshot
 } from '@angular/router';
-import { JwTService } from '../services/jwt.service';
+
+import { JwtService } from '../services/jwt.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private jwtService: JwTService) {}
+  constructor(private router: Router, private jwtService: JwtService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const token = this.jwtService.getToken();
 
     if (token) {
       const tokenDecoded = JSON.parse(atob(token.split('.')[1]));
-      if (tokenDecoded.isAdmin && !this.tokenExpired(tokenDecoded.exp)) return true;
+      if (tokenDecoded.isAdmin && !this.tokenExpired(tokenDecoded.exp))
+        return true;
     }
 
     this.router.navigate(['/login']);

@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { Subject, take, takeUntil } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { JwTService } from '../../services/jwt.service';
+import { JwtService } from '../../services/jwt.service';
 
 @Component({
   selector: 'users-login',
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
-    private jwtService: JwTService,
+    private jwtService: JwtService,
     private router: Router
   ) {}
 
