@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { User } from '../models/user';
+import { UsersFacade } from '../state/users.facade';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UsersService {
   // apiURLUsers = environment.apiUrl + 'users';
   apiURLUsers = 'api/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private usersFacade: UsersFacade) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiURLUsers);
@@ -37,5 +38,9 @@ export class UsersService {
 
   deleteUser(userId: string) {
     return this.http.delete<User>(`${this.apiURLUsers}/${userId}`);
+  }
+
+  initAppSession() {
+    this.usersFacade.buildUserSession();
   }
 }
