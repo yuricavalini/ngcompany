@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsersService } from '@ngcompany/users';
 import { CountriesService } from 'data/countries.service';
 import { MessageService } from 'primeng/api';
 import { Subject, take, takeUntil, timer } from 'rxjs';
@@ -22,6 +23,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   orderItems: CreateOrderItem[] = [];
   currentUserId: string | null = null;
   countries: { code: string; name: string }[] = [];
+  readonly ORDER_INITIAL_STATUS_VALUE = 0;
 
   private unsubs$ = new Subject<void>();
 
@@ -29,6 +31,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private countriesService: CountriesService,
     private ordersService: OrdersService,
     private cartService: CartService,
+    private usersService: UsersService,
     private messageService: MessageService,
     private router: Router
   ) {}
@@ -37,6 +40,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.getCountries();
     this.getCartItems();
     this.createForm();
+    this.autoFillUserData();
   }
 
   ngOnDestroy(): void {
@@ -104,11 +108,41 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         nonNullable: true,
         validators: [Validators.required]
       }),
-      status: new FormControl(0, {
+      status: new FormControl(this.ORDER_INITIAL_STATUS_VALUE, {
         nonNullable: true,
         validators: [Validators.required]
       })
     });
+  }
+
+  private autoFillUserData() {
+    this.usersService
+      .observeCurrentUser()
+      .pipe(takeUntil(this.unsubs$))
+      .subscribe({
+        next: (user) => {
+          if (user) {
+            this.currentUserId = user.id;
+            this.checkoutForm.name.setValue(user.name);
+            this.checkoutForm.email.setValue(user.email);
+            this.checkoutForm.street.setValue(user.street);
+            this.checkoutForm.apartment.setValue(user.apartment);
+            this.checkoutForm.city.setValue(user.city);
+            this.checkoutForm.zip.setValue(user.zip);
+            this.checkoutForm.country.setValue(user.country);
+            this.checkoutForm.phone.setValue(user.phone);
+            this.checkoutForm.status.setValue(this.ORDER_INITIAL_STATUS_VALUE);
+          }
+        },
+        error: (error) => {
+          console.error(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'User not found!'
+          });
+        }
+      });
   }
 
   onSubmit() {
@@ -119,6 +153,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   private placeOrder() {
+    if (!this.currentUserId) return;
+
     const createOrderDTO = new CreateOrderDTO({
       orderItems: this.orderItems,
       shippingAddress1: this.checkoutForm.street.value,
@@ -128,7 +164,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       country: this.checkoutForm.country.value,
       phone: this.checkoutForm.phone.value,
       status: this.checkoutForm.status.value,
-      userId: '',
+      userId: this.currentUserId,
       dateOrdered: Date.now().toString()
     });
 

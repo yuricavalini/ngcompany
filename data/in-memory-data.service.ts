@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
+import { CreateOrderDTO } from 'libs/orders/src/lib/models/create-order-dto';
 
 import { Order } from '../libs/orders/src';
 import { Product } from '../libs/products/src';
@@ -233,6 +234,63 @@ export class InMemoryDataService implements InMemoryDbService {
       // Return the created object in the response
       return requestInfo.utils.createResponse$(() => ({
         body: createdObject,
+        status: 201
+      }));
+    }
+
+    if (collectionName === 'orders') {
+      const createOrderDTO: CreateOrderDTO = requestInfo.utils.getJsonBody(
+        requestInfo.req
+      );
+      const orderItems = createOrderDTO.orderItems.map((orderItem, index) => {
+        const product = ProductsFakeDb.products.find(
+          (product) => product.id === orderItem.productId
+        );
+        if (!product) {
+          throw new Error(`Product with id ${orderItem.productId} not found`);
+        }
+
+        return {
+          id: `${index + 1}`,
+          product,
+          quantity: orderItem.quantity
+        };
+      });
+
+      const user = UsersFakeDb.users.find(
+        (user) => user.id === createOrderDTO.userId
+      );
+
+      const order = new Order({
+        id: this.genId(requestInfo.collection as any[]),
+        orderItems,
+        shippingAddress1: createOrderDTO.shippingAddress1,
+        shippingAddress2: createOrderDTO.shippingAddress2,
+        city: createOrderDTO.city,
+        zip: createOrderDTO.zip,
+        country: createOrderDTO.country,
+        phone: createOrderDTO.phone,
+        status: createOrderDTO.status,
+        totalPrice: orderItems.reduce(
+          (acc, orderItem) =>
+            acc + orderItem.product.price * orderItem.quantity,
+          0
+        ),
+        user:
+          user ??
+          (() => {
+            throw new Error(`User with id ${createOrderDTO.userId} not found`);
+          })(),
+        dateOrdered: new Date(
+          parseInt(createOrderDTO.dateOrdered, 10)
+        ).toISOString()
+      });
+
+      requestInfo.collection.push(order);
+
+      // Return the created object in the response
+      return requestInfo.utils.createResponse$(() => ({
+        body: order,
         status: 201
       }));
     }
