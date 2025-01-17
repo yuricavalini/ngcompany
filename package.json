@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "affected:lint:fix": "npx nx affected:lint --parallel -- --fix",
+    "lint:fix": "npx eslint **/*.{js,jsx,ts,tsx,html,css,scss,json} --fix",
+    "prettier:write": "npx prettier --write '**/*.{js,jsx,ts,tsx,html,css,scss,json,md}'",
     "prepare": "husky"
   },
   "private": true,
