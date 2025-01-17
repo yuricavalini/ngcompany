@@ -6,6 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CategoriesService, ProductsService } from '@ngcompany/products';
 import { JwtInterceptor, UsersModule, UsersService } from '@ngcompany/users';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -28,8 +30,8 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { CountriesService } from '../../../../data/countries.service';
 import { InMemoryDataService } from '../../../../data/in-memory-data.service';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CategoriesFormComponent } from './pages/categories/categories-form/categories-form.component';
 import { CategoriesListComponent } from './pages/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -84,12 +86,14 @@ const UX_MODULES = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     NgOptimizedImage,
     UsersModule,
     ...UX_MODULES,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false
-    }),
+    })
   ],
   providers: [
     CategoriesService,
@@ -99,7 +103,9 @@ const UX_MODULES = [
     MessageService,
     ConfirmationService,
     {
-      provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
