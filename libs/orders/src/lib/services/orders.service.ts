@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Product } from '@ngcompany/products';
 import { map, Observable } from 'rxjs';
 
-import { Order } from '../models/order';
 import { CreateOrderDTO } from '../models/create-order-dto';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class OrdersService {
   }
 
   createOrder(order: CreateOrderDTO) {
-    return this.http.post<CreateOrderDTO>(this.apiURLOrders, order);
+    return this.http.post<Order>(this.apiURLOrders, order);
   }
 
   updateOrder(orderStatus: { status: string }, orderId: string) {
