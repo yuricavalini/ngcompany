@@ -5,6 +5,7 @@
   "scripts": {
     "affected:lint:fix": "npx nx affected:lint --parallel -- --fix",
     "lint:fix": "npx eslint **/*.{js,jsx,ts,tsx,html,css,scss,json} --fix",
+    "pretty-quick:staged": "npx pretty-quick --staged --pattern '**/*.{js,jsx,ts,tsx,html,css,scss,json,md}' --verbose",
     "prettier:write": "npx prettier --write '**/*.{js,jsx,ts,tsx,html,css,scss,json,md}'",
     "prepare": "husky"
   },
