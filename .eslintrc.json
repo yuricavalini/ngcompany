@@ -1,10 +1,11 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "unused-imports", "simple-import-sort"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["plugin:prettier/recommended"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -18,15 +19,20 @@
               }
             ]
           }
-        ]
+        ],
+        "no-empty-function": "off",
+        "quotes": ["error", "single"],
+        "no-trailing-spaces": "off",
+        "unused-imports/no-unused-imports": "error",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
       "rules": {
-        "@typescript-eslint/no-empty-function": "off",
-        "no-empty-function": "off"
+        "@typescript-eslint/no-empty-function": "off"
       }
     },
     {
@@ -40,6 +46,17 @@
         "jest": true
       },
       "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "prettier/prettier": ["error", { "parser": "angular" }]
+      }
     }
   ]
 }
