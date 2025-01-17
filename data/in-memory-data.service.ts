@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
-import { CreateOrderDTO } from 'libs/orders/src/lib/models/create-order-dto';
+import { CreateOrderDTO } from '../libs/orders/src/lib/models/create-order-dto';
 
 import { Order } from '../libs/orders/src';
 import { Product } from '../libs/products/src';
