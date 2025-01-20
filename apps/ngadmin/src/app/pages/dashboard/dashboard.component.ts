@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OrdersService } from '@ngcompany/orders';
-import { ProductsService } from '@ngcompany/products';
+import { OrdersService, ProductsService } from '@ngcompany/shared';
 import { UsersService } from '@ngcompany/users';
-import { Subject, combineLatest, take, takeUntil } from 'rxjs';
+import { combineLatest, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngadmin-dashboard',
-  templateUrl: './dashboard.component.html',
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   statistics: {

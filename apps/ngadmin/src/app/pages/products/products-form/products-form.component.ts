@@ -6,9 +6,9 @@ import {
   CategoriesService,
   Category,
   ProductsService
-} from '@ngcompany/products';
+} from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
-import { Subject, of, switchMap, take, takeUntil, timer } from 'rxjs';
+import { of, Subject, switchMap, take, takeUntil, timer } from 'rxjs';
 
 import { ProductForm } from './product-form';
 

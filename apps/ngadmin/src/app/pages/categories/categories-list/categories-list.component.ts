@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CategoriesService, Category } from '@ngcompany/products';
+import { CategoriesService, Category } from '@ngcompany/shared';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, take, takeUntil } from 'rxjs';
 

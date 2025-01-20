@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CategoriesService, ProductsService } from '@ngcompany/products';
+import { CategoriesService, ProductsService } from '@ngcompany/shared';
 import { JwtInterceptor, UsersModule, UsersService } from '@ngcompany/users';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';

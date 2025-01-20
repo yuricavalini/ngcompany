@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CategoriesService, Category } from '@ngcompany/products';
+import { CategoriesService, Category } from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
 import { of, Subject, switchMap, takeUntil, timer } from 'rxjs';
 

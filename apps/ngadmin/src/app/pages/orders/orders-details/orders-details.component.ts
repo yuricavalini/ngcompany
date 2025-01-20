@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Order, ORDER_STATUS, OrdersService } from '@ngcompany/orders';
+import { Order, ORDER_STATUS, OrdersService } from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { of, Subject, switchMap, takeUntil } from 'rxjs';
