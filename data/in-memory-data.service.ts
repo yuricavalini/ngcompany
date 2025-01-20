@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
-import { CreateOrderDTO } from '../libs/orders/src/lib/models/create-order-dto';
-
-import { Order } from '../libs/orders/src';
-import { Product } from '../libs/products/src';
 import { CategoriesFakeDb } from './categories-db-fake';
 import { OrdersFakeDb } from './orders-db-fake';
 import { ProductsFakeDb } from './products-db-fake';
 import { UsersFakeDb } from './users-db-fake';
+import { CreateOrderDTO, Order, Product } from '@ngcompany/shared';
 
 type GenericObject<T> = T & { id: string };
 

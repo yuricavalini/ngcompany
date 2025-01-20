@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CartItem, CartItemDetailed, CartService } from '@ngcompany/orders';
+import {
+  CartItem,
+  CartItemDetailed,
+  CartService,
+  CategoriesService,
+  Category,
+  Product,
+  ProductsService
+} from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
 import {
   combineLatest,
@@ -12,13 +20,8 @@ import {
   switchMap,
   take,
   takeUntil,
-  tap,
+  tap
 } from 'rxjs';
-
-import { Category } from '../../models/category';
-import { Product } from '../../models/product';
-import { CategoriesService } from '../../services/categories.service';
-import { ProductsService } from '../../services/products.service';
 
 interface CategoryListItem extends Category {
   selected: boolean;

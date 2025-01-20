@@ -1,7 +1,6 @@
 import { FormControl } from '@angular/forms';
+import { Order } from '@ngcompany/shared';
 import { User } from '@ngcompany/users';
-
-import { Order } from '../../models/order';
 
 type CheckoutUserData = Omit<User, 'id' | 'password' | 'token' | 'isAdmin'>;
 type OrderStatusType = Pick<Order, 'status'>;

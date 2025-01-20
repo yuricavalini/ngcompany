@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CartItemDetailed } from '@ngcompany/orders';
-
-import { Product } from '../../models/product';
+import { CartItemDetailed, Product } from '@ngcompany/shared';
 
 @Component({
   selector: 'ngcompany-products-product-item',

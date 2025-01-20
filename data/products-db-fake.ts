@@ -1,4 +1,4 @@
-import { Product } from '../libs/products/src';
+import { Product } from "@ngcompany/shared";
 
 export abstract class ProductsFakeDb {
   public static products: Product[] = [

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Product, ProductsService } from '@ngcompany/shared';
 import { Subject, take, takeUntil } from 'rxjs';
-
-import { Product } from '../../models/product';
-import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'ngcompany-products-featured-products',

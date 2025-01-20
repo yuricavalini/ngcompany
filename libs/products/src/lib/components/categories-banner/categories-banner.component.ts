@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CategoriesService, Category } from '@ngcompany/shared';
 import { Subject, take, takeUntil } from 'rxjs';
-
-import { Category } from '../../models/category';
-import { CategoriesService } from '../../services/categories.service';
 
 @Component({
   selector: 'ngcompany-products-categories-banner',

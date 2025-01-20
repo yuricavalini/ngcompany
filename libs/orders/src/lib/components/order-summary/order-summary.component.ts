@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  CartItemDetailed,
+  CartService,
+  ProductsService
+} from '@ngcompany/shared';
+import {
   combineLatest,
   map,
   of,
@@ -10,10 +15,6 @@ import {
   takeUntil,
   tap
 } from 'rxjs';
-
-import { CartItemDetailed } from '../../models/cart-item-detailed';
-import { CartService } from '../../services/cart.service';
-import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'ngcompany-orders-order-summary',
@@ -26,7 +27,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   isCheckout = false;
 
   constructor(
-    private ordersService: OrdersService,
+    private productService: ProductsService,
     private cartService: CartService,
     private router: Router
   ) {}
@@ -56,7 +57,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
           }
 
           const cartItemObservables$ = cart.items.map((cartItem) =>
-            this.ordersService.getProduct(cartItem.productId).pipe(
+            this.productService.getProduct(cartItem.productId).pipe(
               take(1),
               map(
                 (product) =>

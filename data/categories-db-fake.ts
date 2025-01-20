@@ -1,4 +1,4 @@
-import { Category } from "../libs/products/src";
+import { Category } from "@ngcompany/shared";
 
 export abstract class CategoriesFakeDb {
   public static categories: Category[] = [

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CartService } from '@ngcompany/shared';
 import { Subject, takeUntil } from 'rxjs';
-
-import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'ngcompany-orders-cart-icon',

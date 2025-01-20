@@ -1,5 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  CartItem,
+  CartItemDetailed,
+  CartService,
+  ProductsService
+} from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
 import { InputNumberInputEvent } from 'primeng/inputnumber';
 import {
@@ -12,11 +18,6 @@ import {
   takeUntil,
   tap
 } from 'rxjs';
-
-import { CartItem } from '../../models/cart-item';
-import { CartItemDetailed } from '../../models/cart-item-detailed';
-import { CartService } from '../../services/cart.service';
-import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'ngcompany-orders-cart',
@@ -32,7 +33,7 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private cartService: CartService,
-    private ordersService: OrdersService,
+    private productsService: ProductsService,
     private messageService: MessageService
   ) {}
 
@@ -54,7 +55,7 @@ export class CartComponent implements OnInit, OnDestroy {
           }
 
           const cartItemObservables$ = cart.items.map((cartItem) =>
-            this.ordersService.getProduct(cartItem.productId).pipe(
+            this.productsService.getProduct(cartItem.productId).pipe(
               take(1),
               map(
                 (product) =>

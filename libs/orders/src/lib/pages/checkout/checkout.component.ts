@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  CartService,
+  CreateOrderDTO,
+  CreateOrderItem,
+  OrdersService
+} from '@ngcompany/shared';
 import { UsersService } from '@ngcompany/users';
 import { CountriesService } from 'data/countries.service';
 import { MessageService } from 'primeng/api';
 import { Subject, take, takeUntil, timer } from 'rxjs';
 
-import { CreateOrderDTO } from '../../models/create-order-dto';
-import { CreateOrderItem } from '../../models/create-order-item-dto';
-import { CartService } from '../../services/cart.service';
-import { OrdersService } from '../../services/orders.service';
 import { CheckoutForm } from './checkout-form';
 
 @Component({

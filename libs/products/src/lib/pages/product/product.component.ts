@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CartItem, CartService } from '@ngcompany/orders';
+import {
+  CartItem,
+  CartService,
+  Product,
+  ProductsService
+} from '@ngcompany/shared';
 import { MessageService } from 'primeng/api';
 import { EMPTY, map, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
-
-import { Product } from '../../models/product';
-import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'ngcompany-products-product',
