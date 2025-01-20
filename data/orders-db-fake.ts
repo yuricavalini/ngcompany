@@ -1,4 +1,4 @@
-import { Order } from '../libs/orders/src';
+import { Order } from "@ngcompany/shared";
 
 export abstract class OrdersFakeDb {
   public static orders: Order[] = [

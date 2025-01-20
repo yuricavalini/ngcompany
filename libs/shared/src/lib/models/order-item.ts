@@ -1,4 +1,4 @@
-import { Product } from "@ngcompany/products";
+import { Product } from './product';
 
 export class OrderItem {
   id: string;

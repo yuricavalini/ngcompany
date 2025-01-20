@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '@ngcompany/products';
 import { map, Observable } from 'rxjs';
 
 import { CreateOrderDTO } from '../models/create-order-dto';
@@ -12,7 +11,6 @@ import { Order } from '../models/order';
 export class OrdersService {
   // apiURLOrders = environment.apiUrl + 'orders';
   apiURLOrders = 'api/orders';
-  apiURLProducts = 'api/products';
 
   constructor(private http: HttpClient) {}
 
@@ -48,9 +46,5 @@ export class OrdersService {
 
   deleteOrder(orderId: string) {
     return this.http.delete<Order>(`${this.apiURLOrders}/${orderId}`);
-  }
-
-  getProduct(productId: string) {
-    return this.http.get<Product>(`${this.apiURLProducts}/${productId}`);
   }
 }
