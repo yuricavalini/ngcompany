@@ -1,8 +1,8 @@
 import { UsersEntity } from './users.models';
 import {
+  initialUsersState,
   usersAdapter,
-  UsersPartialState,
-  initialUsersState
+  UsersPartialState
 } from './users.reducer';
 import * as UsersSelectors from './users.selectors';
 

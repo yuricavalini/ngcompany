@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { AuthGuard } from '@ngcompany/users';
 
@@ -11,7 +12,6 @@ import { ProductsListComponent } from './pages/products/products-list/products-l
 import { UsersFormComponent } from './pages/users/users-form/users-form.component';
 import { UsersListComponent } from './pages/users/users-list/users-list.component';
 import { ShellComponent } from './shared/shell/shell.component';
-import { NgModule } from '@angular/core';
 
 const routes: Route[] = [
   {

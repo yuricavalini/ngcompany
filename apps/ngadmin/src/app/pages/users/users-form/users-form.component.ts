@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User, UsersService } from '@ngcompany/users';
 import { CountriesService } from 'data/countries.service';
 import { MessageService } from 'primeng/api';
-import { Subject, of, switchMap, take, takeUntil, timer } from 'rxjs';
+import { of, Subject, switchMap, take, takeUntil, timer } from 'rxjs';
 
 import { UserForm } from './user-form';
 
