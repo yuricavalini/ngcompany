@@ -1,1 +1,2 @@
 npm run pretty-quick:staged
+npm run affected:lint:fix
